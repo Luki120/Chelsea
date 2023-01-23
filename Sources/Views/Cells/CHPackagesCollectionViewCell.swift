@@ -5,6 +5,8 @@ final class CHPackagesCollectionViewCell: UICollectionViewCell {
 
 	static let identifier = "CHPackagesCollectionViewCell"
 
+	private weak var activeViewModel: CHPackagesCollectionViewCellViewModel?
+
 	private lazy var packageImageView: UIImageView = {
 		let imageView = UIImageView()
 		imageView.contentMode = .scaleToFill
@@ -47,7 +49,8 @@ final class CHPackagesCollectionViewCell: UICollectionViewCell {
 
 	override func prepareForReuse() {
 		super.prepareForReuse()
-		packageNameLabel.text = nil
+		activeViewModel = nil
+ 		packageNameLabel.text = nil
 		packageAuthorLabel.text = nil
 		packageDescriptionLabel.text = nil
 		packageImageView.image = nil
@@ -95,15 +98,18 @@ extension CHPackagesCollectionViewCell {
 	// ! Public
 
 	func configure(with viewModel: CHPackagesCollectionViewCellViewModel) {
+		activeViewModel = viewModel
+
 		packageNameLabel.text = viewModel.packageName
 		packageDescriptionLabel.text = viewModel.packageDescription
 		packageAuthorLabel.text = "\(viewModel.packageAuthor) • \(viewModel.packageLatestVersion)"
 
 		viewModel.fetchImage { [weak self] result in
+			guard let self = self, self.activeViewModel == viewModel else { return }
 			switch result {
 				case .success(let image):
 					DispatchQueue.main.async {
-						self?.packageImageView.image = image
+						self.packageImageView.image = image
 					}
 				case .failure: break
 			}
