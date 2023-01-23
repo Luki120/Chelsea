@@ -3,7 +3,7 @@ import UIKit
 
 final class CHPackagesCollectionViewCell: UICollectionViewCell {
 
-	static let identifier = "PackagesCollectionViewCell"
+	static let identifier = "CHPackagesCollectionViewCell"
 
 	private lazy var packageImageView: UIImageView = {
 		let imageView = UIImageView()
@@ -20,7 +20,6 @@ final class CHPackagesCollectionViewCell: UICollectionViewCell {
 		let stackView = UIStackView()
 		stackView.axis = .vertical
 		stackView.spacing = 2
-		stackView.distribution = .fill
 		stackView.translatesAutoresizingMaskIntoConstraints = false
 		contentView.addSubview(stackView)
 		return stackView
@@ -39,7 +38,6 @@ final class CHPackagesCollectionViewCell: UICollectionViewCell {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupUI()
-		contentView.backgroundColor = .secondarySystemBackground
 	}
 
 	override func layoutSubviews() {
@@ -50,14 +48,15 @@ final class CHPackagesCollectionViewCell: UICollectionViewCell {
 	override func prepareForReuse() {
 		super.prepareForReuse()
 		packageNameLabel.text = nil
-		packageDescriptionLabel.text = nil
 		packageAuthorLabel.text = nil
+		packageDescriptionLabel.text = nil
 		packageImageView.image = nil
 	}
 
 	// ! Private
 
 	private func setupUI() {
+		contentView.backgroundColor = .secondarySystemBackground
 		contentView.layer.cornerCurve = .continuous
 		contentView.layer.cornerRadius = 10
 
@@ -74,10 +73,9 @@ final class CHPackagesCollectionViewCell: UICollectionViewCell {
 		packageImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
 		packageImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
+		packageInfoStackView.centerYAnchor.constraint(equalTo: packageImageView.centerYAnchor).isActive = true		
 		packageInfoStackView.leadingAnchor.constraint(equalTo: packageImageView.trailingAnchor, constant: 10).isActive = true
 		packageInfoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
-
-		packageInfoStackView.centerYAnchor.constraint(equalTo: packageImageView.centerYAnchor).isActive = true		
 	}
 
 	// ! Reusable

@@ -10,9 +10,8 @@ final class CHPackagesView: UIView {
 		flowLayout.scrollDirection = .vertical
 		flowLayout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-		collectionView.translatesAutoresizingMaskIntoConstraints = false
-		collectionView.register(CHPackagesCollectionViewCell.self, forCellWithReuseIdentifier: CHPackagesCollectionViewCell.identifier)
 		collectionView.backgroundColor = .systemBackground
+		collectionView.register(CHPackagesCollectionViewCell.self, forCellWithReuseIdentifier: CHPackagesCollectionViewCell.identifier)
 		addSubview(collectionView)
 		return collectionView
 	}()
@@ -41,16 +40,13 @@ final class CHPackagesView: UIView {
 		setupCollectionView()
 	}
 
-	private func layoutUI() {
-		packagesCollectionView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-		packagesCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-		packagesCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-		packagesCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-	}
-
 	private func setupCollectionView() {
 		packagesCollectionView.dataSource = viewModel
 		packagesCollectionView.delegate = viewModel
+	}
+
+	private func layoutUI() {
+		pinViewToAllEdges(packagesCollectionView)
 	}
 
 }
