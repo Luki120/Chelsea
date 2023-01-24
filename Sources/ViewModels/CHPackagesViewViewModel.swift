@@ -27,9 +27,11 @@ final class CHPackagesViewViewModel: NSObject {
 
 	weak var delegate: CHPackagesViewViewModelDelegate?
 
-	func fetchPackages() {
+	// ! Public
+
+	func fetchPackages(fromQuery query: String? = nil) {
 		CHService.sharedInstance.fetchPackages(
-			withURLString: "https://api.ios-repo-updates.com/1.0/search/?s=me.luki",
+			withURLString: "\(CHService.Constants.baseURL)\(query ?? "")",
 			expecting: APIResponse.self
 		) { result in
 			switch result {
@@ -42,6 +44,8 @@ final class CHPackagesViewViewModel: NSObject {
 			}
 		}
 	}
+
+	func wipeViewModels() { cellViewModels.removeAll() }
 
 }
 

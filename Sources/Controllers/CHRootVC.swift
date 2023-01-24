@@ -12,6 +12,7 @@ final class CHRootVC: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupUI()
+		setupSearchController()
 	}
 
 	// ! Private
@@ -19,6 +20,15 @@ final class CHRootVC: UIViewController {
 	private func setupUI() {
 		title = "Chelsea"
 		view.backgroundColor = .systemBackground
+	}
+
+	private func setupSearchController() {
+		let searchController = UISearchController()
+		searchController.searchBar.returnKeyType = .default
+		searchController.searchResultsUpdater = chPackagesView
+		searchController.obscuresBackgroundDuringPresentation = false
+
+		navigationItem.searchController = searchController
 	}
 
 }
