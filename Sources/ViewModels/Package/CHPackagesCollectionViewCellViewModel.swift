@@ -1,7 +1,7 @@
 import UIKit
 
 
-final class CHPackagesCollectionViewCellViewModel: Equatable, Hashable {
+final class CHPackagesCollectionViewCellViewModel: Hashable {
 
 	let packageName: String
 	let packageDescription: String
@@ -31,7 +31,7 @@ final class CHPackagesCollectionViewCellViewModel: Equatable, Hashable {
 		CHImageManager.sharedInstance.fetchImage(urlString, completion: completion)
 	}
 
-	// ! Hashable
+ 	// ! Hashable
 
 	static func == (lhs: CHPackagesCollectionViewCellViewModel, rhs: CHPackagesCollectionViewCellViewModel) -> Bool {
 		return lhs.hashValue == rhs.hashValue
@@ -39,8 +39,10 @@ final class CHPackagesCollectionViewCellViewModel: Equatable, Hashable {
 
 	func hash(into hasher: inout Hasher) {
 		hasher.combine(packageName)
-		hasher.combine(packageAuthor)
 		hasher.combine(packageDescription)
+		hasher.combine(packageIconURL)
+		hasher.combine(packageAuthor)
+		hasher.combine(packageLatestVersion)
 	}
 
 }

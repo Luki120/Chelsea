@@ -2,6 +2,10 @@ import Combine
 import UIKit
 
 
+protocol CHPackagesViewDelegate: AnyObject {
+	func chPackagesView(_ chPackagesView: CHPackagesView, didSelectPackage package: Package)
+}
+
 final class CHPackagesView: UIView {
 
 	private let packagesViewModel = CHPackagesViewViewModel()
@@ -9,10 +13,12 @@ final class CHPackagesView: UIView {
 
 	private var subscriptions = Set<AnyCancellable>()
 
+	weak var delegate: CHPackagesViewDelegate?
+
 	private lazy var packagesCollectionView: UICollectionView = {
 		let flowLayout = UICollectionViewFlowLayout()
 		flowLayout.scrollDirection = .vertical
-		flowLayout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+		flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
 		collectionView.alpha = 0
 		collectionView.backgroundColor = .systemBackground
@@ -94,12 +100,17 @@ extension CHPackagesView: CHPackagesViewViewModelDelegate {
 		}
 	}
 
+	func didSelectPackage(_ package: Package) {
+		delegate?.chPackagesView(self, didSelectPackage: package)
+	}
+
 }
 
 extension CHPackagesView: UISearchResultsUpdating {
 
 	func updateSearchResults(for searchController: UISearchController) {
-		searchQueryViewModel.searchQuery = searchController.searchBar.text ?? ""
+		let textToSearch = searchController.searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+		searchQueryViewModel.searchQuery = textToSearch ?? ""
 	}
 
 }

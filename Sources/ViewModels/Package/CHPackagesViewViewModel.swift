@@ -3,6 +3,7 @@ import UIKit
 
 protocol CHPackagesViewViewModelDelegate: AnyObject {
 	func didFetchPackages()
+	func didSelectPackage(_ package: Package)
 }
 
 final class CHPackagesViewViewModel: NSObject {
@@ -49,6 +50,8 @@ final class CHPackagesViewViewModel: NSObject {
 
 }
 
+// ! CollectionView
+
 extension CHPackagesViewViewModel: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return cellViewModels.count
@@ -67,6 +70,12 @@ extension CHPackagesViewViewModel: UICollectionViewDataSource, UICollectionViewD
 
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		return CGSize(width: UIScreen.main.bounds.size.width - 30, height: 85)
+	}
+
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		collectionView.deselectItem(at: indexPath, animated: true)		
+		let package = packages[indexPath.row]
+		delegate?.didSelectPackage(package)
 	}
 
 }

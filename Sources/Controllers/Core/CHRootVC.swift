@@ -13,6 +13,7 @@ final class CHRootVC: UIViewController {
 		super.viewDidLoad()
 		setupUI()
 		setupSearchController()
+		chPackagesView.delegate = self
 	}
 
 	// ! Private
@@ -29,6 +30,18 @@ final class CHRootVC: UIViewController {
 		searchController.obscuresBackgroundDuringPresentation = false
 
 		navigationItem.searchController = searchController
+	}
+
+}
+
+// ! CHPackagesViewDelegate
+
+extension CHRootVC: CHPackagesViewDelegate {
+
+	func chPackagesView(_ chPackagesView: CHPackagesView, didSelectPackage package: Package) {
+		let viewModel = CHPackagesDetailViewViewModel(package: package)
+		let packagesDetailVC = CHPackagesDetailVC(viewModel: viewModel)
+		navigationController?.pushViewController(packagesDetailVC, animated: true)
 	}
 
 }
