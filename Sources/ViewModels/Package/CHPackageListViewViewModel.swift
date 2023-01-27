@@ -13,10 +13,10 @@ final class CHPackageListViewViewModel: NSObject {
 		didSet {
 			for package in packages {
 				let viewModel = CHPackageCollectionViewCellViewModel(
-					packageName: package.name ?? "Unknown",
+					packageName: package.name ?? package.identifier,
 					packageDescription: package.description,
-					packageIconURL: package.packageIcon ?? "https://repo.packix.com/icons/tweak.png",
-					packageAuthor: package.author ?? "Unknown",
+					packageIconURL: package.packageIcon ?? .fallbackIcon,
+					packageAuthor: .cleanAuthor(package.author ?? "Unknown") ?? "Unknown",
 					packageLatestVersion: package.latestVersion
 				)
 				if !cellViewModels.contains(viewModel) {

@@ -4,26 +4,12 @@ import UIKit
 final class CHPackageDetailsViewViewModel: NSObject {
 
 	let package: Package
+	var title: String { package.name ?? package.identifier }
 
 	// ! Utilities
 
-	var title: String { package.name ?? "Unknown" }
-
-	private var cleanAuthor: String? {
-		let scanner = Scanner(string: package.author ?? "")
-		guard let scannedString = scanner.scanUpToString("<") else { return nil }
-		return scannedString
-	}
-
-	private var authorEmail: String? {
-		let scanner = Scanner(string: package.author ?? "")
-
-		guard scanner.scanUpToString("<") != nil,
-			scanner.scanString("<") != nil,
-			let scannedString = scanner.scanUpToString(">") else { return nil }
-
-		return scannedString
-	}
+	private var authorEmail: String! { .authorEmail(package.author ?? "") }
+	private var cleanAuthor: String! { .cleanAuthor(package.author ?? "Unknown") }
 
 	// ! UICollectionViewDiffableDataSource
 
@@ -48,12 +34,12 @@ final class CHPackageDetailsViewViewModel: NSObject {
 	// ! Private
 
 	private func setupModels() {
-		detailHeaderViewModel = .init(imageURLString: package.packageIcon ?? "https://repo.packix.com/icons/tweak.png")
+		detailHeaderViewModel = .init(imageURLString: package.packageIcon ?? .fallbackIcon)
 
 		cellDetailViewModels = [
 			.init(mainText: package.name ?? "-"),
 			.init(mainText: package.identifier),
-			.init(mainText: cleanAuthor ?? "Unknown", secondaryText: authorEmail ?? ""),
+ 			.init(mainText: cleanAuthor, secondaryText: authorEmail),
 			.init(mainText: "Version", secondaryText: package.latestVersion),
 			.init(mainText: "Repository", secondaryText: package.repository.name)
 		]
