@@ -1,18 +1,18 @@
 import UIKit
 
 
-protocol CHPackagesViewViewModelDelegate: AnyObject {
+protocol CHPackageListViewViewModelDelegate: AnyObject {
 	func didFetchPackages()
 	func didSelectPackage(_ package: Package)
 }
 
-final class CHPackagesViewViewModel: NSObject {
+final class CHPackageListViewViewModel: NSObject {
 
-	private var cellViewModels = [CHPackagesCollectionViewCellViewModel]()
+	private var cellViewModels = [CHPackageCollectionViewCellViewModel]()
 	private var packages = [Package]() {
 		didSet {
 			for package in packages {
-				let viewModel = CHPackagesCollectionViewCellViewModel(
+				let viewModel = CHPackageCollectionViewCellViewModel(
 					packageName: package.name ?? "Unknown",
 					packageDescription: package.description,
 					packageIconURL: package.packageIcon ?? "https://repo.packix.com/icons/tweak.png",
@@ -26,7 +26,7 @@ final class CHPackagesViewViewModel: NSObject {
 		}
 	}
 
-	weak var delegate: CHPackagesViewViewModelDelegate?
+	weak var delegate: CHPackageListViewViewModelDelegate?
 
 	// ! Public
 
@@ -52,16 +52,16 @@ final class CHPackagesViewViewModel: NSObject {
 
 // ! CollectionView
 
-extension CHPackagesViewViewModel: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension CHPackageListViewViewModel: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return cellViewModels.count
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		guard let cell = collectionView.dequeueReusableCell(
-			withReuseIdentifier: CHPackagesCollectionViewCell.identifier,
+			withReuseIdentifier: CHPackageCollectionViewCell.identifier,
 			for: indexPath
-		) as? CHPackagesCollectionViewCell else {
+		) as? CHPackageCollectionViewCell else {
 			return UICollectionViewCell()
 		}
 		cell.configure(with: cellViewModels[indexPath.row])

@@ -1,9 +1,9 @@
 import UIKit
 
 
-final class CHPackagesDetailView: UIView {
+final class CHPackageDetailsView: UIView {
 
-	var viewModel: CHPackagesDetailViewViewModel
+	var viewModel: CHPackageDetailsViewViewModel
 
 	private lazy var listCollectionView: UICollectionView = {
 		let sectionProvider = {
@@ -28,7 +28,7 @@ final class CHPackagesDetailView: UIView {
 		fatalError("L")	
 	}
 
-	init(viewModel: CHPackagesDetailViewViewModel) {
+	init(viewModel: CHPackageDetailsViewViewModel) {
 		self.viewModel = viewModel
 		super.init(frame: .zero)
 		setupUI()

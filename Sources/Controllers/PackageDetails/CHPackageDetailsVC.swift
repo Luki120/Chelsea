@@ -1,10 +1,10 @@
 import UIKit
 
 
-final class CHPackagesDetailVC: UIViewController {
+final class CHPackageDetailsVC: UIViewController {
 
-	let viewModel: CHPackagesDetailViewViewModel
-	let chPackagesDetailView: CHPackagesDetailView
+	let viewModel: CHPackageDetailsViewViewModel
+	let chPackageDetailsView: CHPackageDetailsView
 
 	// ! Lifecycle
 
@@ -12,13 +12,13 @@ final class CHPackagesDetailVC: UIViewController {
 		fatalError("L")
 	}
 
-	init(viewModel: CHPackagesDetailViewViewModel) {
+	init(viewModel: CHPackageDetailsViewViewModel) {
 		self.viewModel = viewModel
-		self.chPackagesDetailView = CHPackagesDetailView(viewModel: viewModel)
+		self.chPackageDetailsView = CHPackageDetailsView(viewModel: viewModel)
 		super.init(nibName: nil, bundle: nil)
 	}
 
- 	override func loadView() { view = chPackagesDetailView }
+ 	override func loadView() { view = chPackageDetailsView }
 
 	override func viewDidLoad() {
 		super.viewDidLoad()

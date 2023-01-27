@@ -1,7 +1,7 @@
 import UIKit
 
 
-final class CHPackagesCollectionViewCellViewModel: Hashable {
+final class CHPackageCollectionViewCellViewModel: Hashable {
 
 	let packageName: String
 	let packageDescription: String
@@ -33,7 +33,7 @@ final class CHPackagesCollectionViewCellViewModel: Hashable {
 
  	// ! Hashable
 
-	static func == (lhs: CHPackagesCollectionViewCellViewModel, rhs: CHPackagesCollectionViewCellViewModel) -> Bool {
+	static func == (lhs: CHPackageCollectionViewCellViewModel, rhs: CHPackageCollectionViewCellViewModel) -> Bool {
 		return lhs.hashValue == rhs.hashValue
 	}
 

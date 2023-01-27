@@ -1,7 +1,7 @@
 import UIKit
 
 
-final class CHPackagesDetailViewViewModel: NSObject {
+final class CHPackageDetailsViewViewModel: NSObject {
 
 	let package: Package
 
@@ -32,12 +32,12 @@ final class CHPackagesDetailViewViewModel: NSObject {
 		case footer
 	}
 
-	private var dataSource: UICollectionViewDiffableDataSource<CHPackagesDetailViewViewModel.Sections, CHPackagesDetailCollectionViewListCellViewModel>!
-	private var snapshot: NSDiffableDataSourceSnapshot<CHPackagesDetailViewViewModel.Sections, CHPackagesDetailCollectionViewListCellViewModel>!
+	private var dataSource: UICollectionViewDiffableDataSource<CHPackageDetailsViewViewModel.Sections, CHPackageDetailsCollectionViewListCellViewModel>!
+	private var snapshot: NSDiffableDataSourceSnapshot<CHPackageDetailsViewViewModel.Sections, CHPackageDetailsCollectionViewListCellViewModel>!
 
-	private var cellDetailViewModels = [CHPackagesDetailCollectionViewListCellViewModel]()
-	private var detailHeaderViewModel: CHPackagesDetailHeaderCollectionReusableViewViewModel!
-	private var footerViewModel = [CHPackagesDetailCollectionViewListCellViewModel]()
+	private var cellDetailViewModels = [CHPackageDetailsCollectionViewListCellViewModel]()
+	private var detailHeaderViewModel: CHPackageDetailsHeaderCollectionReusableViewViewModel!
+	private var footerViewModel = [CHPackageDetailsCollectionViewListCellViewModel]()
 
 	init(package: Package) {
 		self.package = package
@@ -67,7 +67,7 @@ final class CHPackagesDetailViewViewModel: NSObject {
 
 // ! CollectionView
 
-extension CHPackagesDetailViewViewModel: UICollectionViewDelegate {
+extension CHPackageDetailsViewViewModel: UICollectionViewDelegate {
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		collectionView.deselectItem(at: indexPath, animated: true)
@@ -75,12 +75,12 @@ extension CHPackagesDetailViewViewModel: UICollectionViewDelegate {
 
 	func setupListCollectionView(_ listCollectionView: UICollectionView) {
 		let cellRegistration = UICollectionView.CellRegistration
-		<CHPackagesDetailCollectionViewListCell, CHPackagesDetailCollectionViewListCellViewModel> { cell, _, viewModel in
+		<CHPackageDetailsCollectionViewListCell, CHPackageDetailsCollectionViewListCellViewModel> { cell, _, viewModel in
 			cell.viewModel = viewModel
 		}
 
-		dataSource = UICollectionViewDiffableDataSource<CHPackagesDetailViewViewModel.Sections, CHPackagesDetailCollectionViewListCellViewModel>(collectionView: listCollectionView) {
-			(collectionView: UICollectionView, indexPath: IndexPath, identifier: CHPackagesDetailCollectionViewListCellViewModel) -> UICollectionViewCell? in
+		dataSource = UICollectionViewDiffableDataSource<CHPackageDetailsViewViewModel.Sections, CHPackageDetailsCollectionViewListCellViewModel>(collectionView: listCollectionView) {
+			(collectionView: UICollectionView, indexPath: IndexPath, identifier: CHPackageDetailsCollectionViewListCellViewModel) -> UICollectionViewCell? in
 			let cell = collectionView.dequeueConfiguredReusableCell(
 				using: cellRegistration,
 				for: indexPath,
@@ -91,7 +91,7 @@ extension CHPackagesDetailViewViewModel: UICollectionViewDelegate {
 
 		setupHeader()
 
-		snapshot = NSDiffableDataSourceSnapshot<CHPackagesDetailViewViewModel.Sections, CHPackagesDetailCollectionViewListCellViewModel>()
+		snapshot = NSDiffableDataSourceSnapshot<CHPackageDetailsViewViewModel.Sections, CHPackageDetailsCollectionViewListCellViewModel>()
 		snapshot.appendSections([.main, .footer])
 		snapshot.appendItems(cellDetailViewModels, toSection: .main)
 		snapshot.appendItems(footerViewModel, toSection: .footer)
@@ -101,7 +101,7 @@ extension CHPackagesDetailViewViewModel: UICollectionViewDelegate {
 
 	private func setupHeader() {
 		let headerRegistration = UICollectionView.SupplementaryRegistration
-		<CHPackagesDetailHeaderCollectionReusableView>(elementKind: UICollectionView.elementKindSectionHeader) { detailHeaderView, _, _ in
+		<CHPackageDetailsHeaderCollectionReusableView>(elementKind: UICollectionView.elementKindSectionHeader) { detailHeaderView, _, _ in
 			detailHeaderView.configure(with: self.detailHeaderViewModel)
 		}
 

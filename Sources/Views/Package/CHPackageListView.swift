@@ -2,18 +2,18 @@ import Combine
 import UIKit
 
 
-protocol CHPackagesViewDelegate: AnyObject {
-	func chPackagesView(_ chPackagesView: CHPackagesView, didSelectPackage package: Package)
+protocol CHPackageListViewDelegate: AnyObject {
+	func chPackageListView(_ chPackageListView: CHPackageListView, didSelectPackage package: Package)
 }
 
-final class CHPackagesView: UIView {
+final class CHPackageListView: UIView {
 
-	private let packagesViewModel = CHPackagesViewViewModel()
-	private let searchQueryViewModel = CHPackagesSearchQueryViewModel()
+	private let packageListViewModel = CHPackageListViewViewModel()
+	private let searchQueryViewModel = CHPackageSearchQueryViewModel()
 
 	private var subscriptions = Set<AnyCancellable>()
 
-	weak var delegate: CHPackagesViewDelegate?
+	weak var delegate: CHPackageListViewDelegate?
 
 	private lazy var packagesCollectionView: UICollectionView = {
 		let flowLayout = UICollectionViewFlowLayout()
@@ -22,7 +22,7 @@ final class CHPackagesView: UIView {
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
 		collectionView.alpha = 0
 		collectionView.backgroundColor = .systemBackground
-		collectionView.register(CHPackagesCollectionViewCell.self, forCellWithReuseIdentifier: CHPackagesCollectionViewCell.identifier)
+		collectionView.register(CHPackageCollectionViewCell.self, forCellWithReuseIdentifier: CHPackageCollectionViewCell.identifier)
 		addSubview(collectionView)
 		return collectionView
 	}()
@@ -61,8 +61,8 @@ final class CHPackagesView: UIView {
 	}
 
 	private func setupCollectionView() {
-		packagesCollectionView.dataSource = packagesViewModel
-		packagesCollectionView.delegate = packagesViewModel
+		packagesCollectionView.dataSource = packageListViewModel
+		packagesCollectionView.delegate = packageListViewModel
 	}
 
 	private func layoutUI() {
@@ -75,21 +75,21 @@ final class CHPackagesView: UIView {
 	}
 
 	private func setupViewModels() {
-		packagesViewModel.delegate = self
-		packagesViewModel.fetchPackages()
+		packageListViewModel.delegate = self
+		packageListViewModel.fetchPackages()
  
 		searchQueryViewModel.$searchQuery
 			.debounce(for: .seconds(0.8), scheduler: DispatchQueue.main)
 			.sink { [weak self] in
-				self?.packagesViewModel.wipeViewModels()
-				self?.packagesViewModel.fetchPackages(fromQuery: $0)
+				self?.packageListViewModel.wipeViewModels()
+				self?.packageListViewModel.fetchPackages(fromQuery: $0)
 			}
 			.store(in: &subscriptions)
 	}
 
 }
 
-extension CHPackagesView: CHPackagesViewViewModelDelegate {
+extension CHPackageListView: CHPackageListViewViewModelDelegate {
 
 	func didFetchPackages() {
 		spinnerView.stopAnimating()
@@ -101,12 +101,12 @@ extension CHPackagesView: CHPackagesViewViewModelDelegate {
 	}
 
 	func didSelectPackage(_ package: Package) {
-		delegate?.chPackagesView(self, didSelectPackage: package)
+		delegate?.chPackageListView(self, didSelectPackage: package)
 	}
 
 }
 
-extension CHPackagesView: UISearchResultsUpdating {
+extension CHPackageListView: UISearchResultsUpdating {
 
 	func updateSearchResults(for searchController: UISearchController) {
 		let textToSearch = searchController.searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines)

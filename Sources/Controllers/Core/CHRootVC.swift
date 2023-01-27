@@ -3,17 +3,17 @@ import UIKit
 
 final class CHRootVC: UIViewController {
 
-	private let chPackagesView = CHPackagesView()
+	private let chPackageListView = CHPackageListView()
 
 	// ! Lifecycle
 
-	override func loadView() { view = chPackagesView }
+	override func loadView() { view = chPackageListView }
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupUI()
 		setupSearchController()
-		chPackagesView.delegate = self
+		chPackageListView.delegate = self
 	}
 
 	// ! Private
@@ -26,7 +26,7 @@ final class CHRootVC: UIViewController {
 	private func setupSearchController() {
 		let searchController = UISearchController()
 		searchController.searchBar.returnKeyType = .default
-		searchController.searchResultsUpdater = chPackagesView
+		searchController.searchResultsUpdater = chPackageListView
 		searchController.obscuresBackgroundDuringPresentation = false
 
 		navigationItem.searchController = searchController
@@ -36,12 +36,12 @@ final class CHRootVC: UIViewController {
 
 // ! CHPackagesViewDelegate
 
-extension CHRootVC: CHPackagesViewDelegate {
+extension CHRootVC: CHPackageListViewDelegate {
 
-	func chPackagesView(_ chPackagesView: CHPackagesView, didSelectPackage package: Package) {
-		let viewModel = CHPackagesDetailViewViewModel(package: package)
-		let packagesDetailVC = CHPackagesDetailVC(viewModel: viewModel)
-		navigationController?.pushViewController(packagesDetailVC, animated: true)
+	func chPackageListView(_ chPackageListView: CHPackageListView, didSelectPackage package: Package) {
+		let viewModel = CHPackageDetailsViewViewModel(package: package)
+		let packageDetailsVC = CHPackageDetailsVC(viewModel: viewModel)
+		navigationController?.pushViewController(packageDetailsVC, animated: true)
 	}
 
 }

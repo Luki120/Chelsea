@@ -1,7 +1,7 @@
 import Foundation
 
 
-struct CHPackagesDetailCollectionViewListCellViewModel: Hashable {
+struct CHPackageDetailsCollectionViewListCellViewModel: Hashable {
 
 	private let mainText: String
 	private let secondaryText: String?

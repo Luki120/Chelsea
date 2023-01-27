@@ -1,7 +1,7 @@
 import UIKit
 
 
-struct CHPackagesDetailHeaderCollectionReusableViewViewModel {
+struct CHPackageDetailsHeaderCollectionReusableViewViewModel {
 
 	private let imageURLString: String?
 

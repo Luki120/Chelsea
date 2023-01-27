@@ -1,14 +1,14 @@
 import UIKit
 
 
-final class CHPackagesDetailContentView: UIView, UIContentView {
+final class CHPackageDetailsContentView: UIView, UIContentView {
 
-	private var currentConfiguration: CHPackagesDetailContentConfiguration!
+	private var currentConfiguration: CHPackageDetailsContentConfiguration!
 
 	var configuration: UIContentConfiguration {
 		get { currentConfiguration }
 		set {
-			guard let newConfiguration = newValue as? CHPackagesDetailContentConfiguration else { return }
+			guard let newConfiguration = newValue as? CHPackageDetailsContentConfiguration else { return }
 			apply(configuration: newConfiguration)
 		}
 	}
@@ -31,7 +31,7 @@ final class CHPackagesDetailContentView: UIView, UIContentView {
 		super.init(coder: coder)
 	}
 
-	init(configuration: CHPackagesDetailContentConfiguration) {
+	init(configuration: CHPackageDetailsContentConfiguration) {
 		super.init(frame: .zero)
 
 		setupUI()
@@ -57,7 +57,7 @@ final class CHPackagesDetailContentView: UIView, UIContentView {
 		])
 	}
 
-	private func apply(configuration: CHPackagesDetailContentConfiguration) {
+	private func apply(configuration: CHPackageDetailsContentConfiguration) {
 		guard currentConfiguration != configuration else { return }
 
 		currentConfiguration = configuration

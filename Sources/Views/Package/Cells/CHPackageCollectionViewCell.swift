@@ -1,11 +1,11 @@
 import UIKit
 
 
-final class CHPackagesCollectionViewCell: UICollectionViewCell {
+final class CHPackageCollectionViewCell: UICollectionViewCell {
 
-	static let identifier = "CHPackagesCollectionViewCell"
+	static let identifier = "CHPackageCollectionViewCell"
 
-	private weak var activeViewModel: CHPackagesCollectionViewCellViewModel?
+	private weak var activeViewModel: CHPackageCollectionViewCellViewModel?
 
 	private lazy var packageImageView: UIImageView = {
 		let imageView = UIImageView()
@@ -93,11 +93,11 @@ final class CHPackagesCollectionViewCell: UICollectionViewCell {
 
 }
 
-extension CHPackagesCollectionViewCell {
+extension CHPackageCollectionViewCell {
 
 	// ! Public
 
-	func configure(with viewModel: CHPackagesCollectionViewCellViewModel) {
+	func configure(with viewModel: CHPackageCollectionViewCellViewModel) {
 		activeViewModel = viewModel
 
 		packageNameLabel.text = viewModel.packageName

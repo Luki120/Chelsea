@@ -1,7 +1,7 @@
 import UIKit
 
 
-final class CHPackagesDetailHeaderCollectionReusableView : UICollectionReusableView {
+final class CHPackageDetailsHeaderCollectionReusableView : UICollectionReusableView {
 
 	private lazy var headerImageView: UIImageView = {
 		let imageView = UIImageView()
@@ -45,11 +45,11 @@ final class CHPackagesDetailHeaderCollectionReusableView : UICollectionReusableV
 
 }
 
-extension CHPackagesDetailHeaderCollectionReusableView {
+extension CHPackageDetailsHeaderCollectionReusableView {
 
 	// ! Public
 
-	func configure(with viewModel: CHPackagesDetailHeaderCollectionReusableViewViewModel) {
+	func configure(with viewModel: CHPackageDetailsHeaderCollectionReusableViewViewModel) {
 		viewModel.fetchHeaderImage { [weak self] result in
 			switch result {
 				case .success(let image):

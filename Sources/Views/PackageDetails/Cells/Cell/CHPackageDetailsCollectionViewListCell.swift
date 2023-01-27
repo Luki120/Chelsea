@@ -1,12 +1,12 @@
 import UIKit
 
 
-final class CHPackagesDetailCollectionViewListCell: UICollectionViewListCell {
+final class CHPackageDetailsCollectionViewListCell: UICollectionViewListCell {
 
-	var viewModel: CHPackagesDetailCollectionViewListCellViewModel?
+	var viewModel: CHPackageDetailsCollectionViewListCellViewModel?
 
 	override func updateConfiguration(using state: UICellConfigurationState) {
-		var newConfiguration = CHPackagesDetailContentConfiguration().updated(for: state)
+		var newConfiguration = CHPackageDetailsContentConfiguration().updated(for: state)
 		newConfiguration.mainText = viewModel?.displayMainText
 		newConfiguration.secondaryText = viewModel?.displaySecondaryText
 
