@@ -1,6 +1,10 @@
 import UIKit
 
 
+protocol CHPackageDetailsViewViewModelDelegate: AnyObject {
+	func didSelectAuthorCell()
+}
+
 final class CHPackageDetailsViewViewModel: NSObject {
 
 	let package: Package
@@ -8,7 +12,7 @@ final class CHPackageDetailsViewViewModel: NSObject {
 
 	// ! Utilities
 
-	private var authorEmail: String! { .authorEmail(package.author ?? "") }
+	var authorEmail: String! { .authorEmail(package.author ?? "") }
 	private var cleanAuthor: String! { .cleanAuthor(package.author ?? "Unknown") }
 
 	// ! UICollectionViewDiffableDataSource
@@ -25,6 +29,8 @@ final class CHPackageDetailsViewViewModel: NSObject {
 	private var detailHeaderViewModel: CHPackageDetailsHeaderCollectionReusableViewViewModel!
 	private var footerViewModel = [CHPackageDetailsCollectionViewListCellViewModel]()
 
+	weak var delegate: CHPackageDetailsViewViewModelDelegate?
+
 	init(package: Package) {
 		self.package = package
 		super.init()
@@ -39,7 +45,7 @@ final class CHPackageDetailsViewViewModel: NSObject {
 		cellDetailViewModels = [
 			.init(mainText: package.name ?? "-"),
 			.init(mainText: package.identifier),
- 			.init(mainText: cleanAuthor, secondaryText: authorEmail),
+			.init(mainText: cleanAuthor, secondaryText: authorEmail),
 			.init(mainText: "Version", secondaryText: package.latestVersion),
 			.init(mainText: "Repository", secondaryText: package.repository.name)
 		]
@@ -57,6 +63,12 @@ extension CHPackageDetailsViewViewModel: UICollectionViewDelegate {
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		collectionView.deselectItem(at: indexPath, animated: true)
+		guard authorEmail != nil, indexPath.section == 0 else { return }
+		switch indexPath.row {
+			case 2: delegate?.didSelectAuthorCell()
+			default: break
+		}
+
 	}
 
 	func setupListCollectionView(_ listCollectionView: UICollectionView) {

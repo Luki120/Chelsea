@@ -16,9 +16,10 @@ final class CHPackageDetailsVC: UIViewController {
 		self.viewModel = viewModel
 		self.chPackageDetailsView = CHPackageDetailsView(viewModel: viewModel)
 		super.init(nibName: nil, bundle: nil)
+		chPackageDetailsView.delegate = self
 	}
 
- 	override func loadView() { view = chPackageDetailsView }
+	override func loadView() { view = chPackageDetailsView }
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -30,6 +31,17 @@ final class CHPackageDetailsVC: UIViewController {
 	private func setupUI() {
 		title = viewModel.title
 		view.backgroundColor = .systemBackground
+	}
+
+}
+
+// ! CHPackageDetailsViewDelegate
+
+extension CHPackageDetailsVC: CHPackageDetailsViewDelegate {
+
+	func chPackageDetailsViewDidSelectAuthorCell() {
+		guard let url = URL(string: "mailto:\(viewModel.authorEmail!)") else { return }
+		UIApplication.shared.open(url, options: [:], completionHandler: nil)
 	}
 
 }

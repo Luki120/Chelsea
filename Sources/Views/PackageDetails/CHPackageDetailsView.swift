@@ -1,9 +1,13 @@
 import UIKit
 
 
+protocol CHPackageDetailsViewDelegate: AnyObject {
+	func chPackageDetailsViewDidSelectAuthorCell()
+}
+
 final class CHPackageDetailsView: UIView {
 
-	var viewModel: CHPackageDetailsViewViewModel
+	let viewModel: CHPackageDetailsViewViewModel
 
 	private lazy var listCollectionView: UICollectionView = {
 		let sectionProvider = {
@@ -22,6 +26,8 @@ final class CHPackageDetailsView: UIView {
 		return collectionView
 	}()
 
+	weak var delegate: CHPackageDetailsViewDelegate?
+
 	// ! Lifecycle
 
 	required init?(coder: NSCoder) {
@@ -31,6 +37,7 @@ final class CHPackageDetailsView: UIView {
 	init(viewModel: CHPackageDetailsViewViewModel) {
 		self.viewModel = viewModel
 		super.init(frame: .zero)
+		viewModel.delegate = self
 		setupUI()
 	}
 
@@ -52,6 +59,16 @@ final class CHPackageDetailsView: UIView {
 
 	private func layoutUI() {
 		pinViewToAllEdges(listCollectionView)
+	}
+
+}
+
+// ! CHPackageDetailsViewViewModelDelegate
+
+extension CHPackageDetailsView: CHPackageDetailsViewViewModelDelegate {
+
+	func didSelectAuthorCell() {
+		delegate?.chPackageDetailsViewDidSelectAuthorCell()
 	}
 
 }
