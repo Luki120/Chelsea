@@ -43,6 +43,7 @@ final class CHPackageListView: UIView {
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
+		setupCollectionView()
 		setupUI()
 		setupViewModels()
 	}
@@ -54,15 +55,14 @@ final class CHPackageListView: UIView {
 
 	// ! Private
 
-	private func setupUI() {
-		backgroundColor = .systemBackground
-		setupCollectionView()
-		spinnerView.startAnimating()
-	}
-
 	private func setupCollectionView() {
 		packagesCollectionView.dataSource = packageListViewModel
 		packagesCollectionView.delegate = packageListViewModel
+	}
+
+	private func setupUI() {
+		backgroundColor = .systemBackground
+		spinnerView.startAnimating()
 	}
 
 	private func layoutUI() {

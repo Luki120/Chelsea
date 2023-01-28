@@ -19,6 +19,7 @@ final class CHPackageDetailsView: UIView {
 		let listLayout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
 		collectionView.backgroundColor = .systemBackground
+		collectionView.delegate = viewModel
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		addSubview(collectionView)
 		return collectionView
@@ -48,11 +49,6 @@ final class CHPackageDetailsView: UIView {
 
 	private func setupUI() {
 		viewModel.setupListCollectionView(listCollectionView)
-		setupCollectionView()
-	}
-
-	private func setupCollectionView() {
-		listCollectionView.delegate = viewModel
 	}
 
 	private func layoutUI() {
