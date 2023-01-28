@@ -3,7 +3,7 @@ import UIKit
 
 
 protocol CHPackageListViewDelegate: AnyObject {
-	func chPackageListView(_ chPackageListView: CHPackageListView, didSelectPackage package: Package)
+	func chPackageListViewDidSelect(package: Package)
 }
 
 final class CHPackageListView: UIView {
@@ -12,8 +12,6 @@ final class CHPackageListView: UIView {
 	private let searchQueryViewModel = CHPackageSearchQueryViewModel()
 
 	private var subscriptions = Set<AnyCancellable>()
-
-	weak var delegate: CHPackageListViewDelegate?
 
 	private lazy var packagesCollectionView: UICollectionView = {
 		let flowLayout = UICollectionViewFlowLayout()
@@ -34,6 +32,8 @@ final class CHPackageListView: UIView {
 		addSubview(spinnerView)
 		return spinnerView
 	}()
+
+	weak var delegate: CHPackageListViewDelegate?
 
 	// ! Lifecycle
 
@@ -100,8 +100,8 @@ extension CHPackageListView: CHPackageListViewViewModelDelegate {
 		}
 	}
 
-	func didSelectPackage(_ package: Package) {
-		delegate?.chPackageListView(self, didSelectPackage: package)
+	func didSelect(package: Package) {
+		delegate?.chPackageListViewDidSelect(package: package)
 	}
 
 }
@@ -109,8 +109,9 @@ extension CHPackageListView: CHPackageListViewViewModelDelegate {
 extension CHPackageListView: UISearchResultsUpdating {
 
 	func updateSearchResults(for searchController: UISearchController) {
-		let textToSearch = searchController.searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines)
-		searchQueryViewModel.searchQuery = textToSearch ?? ""
+		let textToSearch = searchController.searchBar.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+		guard !textToSearch.isEmpty else { return }
+		searchQueryViewModel.searchQuery = textToSearch
 	}
 
 }

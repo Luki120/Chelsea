@@ -38,7 +38,7 @@ final class CHRootVC: UIViewController {
 
 extension CHRootVC: CHPackageListViewDelegate {
 
-	func chPackageListView(_ chPackageListView: CHPackageListView, didSelectPackage package: Package) {
+	func chPackageListViewDidSelect(package: Package) {
 		let viewModel = CHPackageDetailsViewViewModel(package: package)
 		let packageDetailsVC = CHPackageDetailsVC(viewModel: viewModel)
 		navigationController?.pushViewController(packageDetailsVC, animated: true)

@@ -12,11 +12,9 @@ final class CHPackageDetailsView: UIView {
 	private lazy var listCollectionView: UICollectionView = {
 		let sectionProvider = {
 			(sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-			var section: NSCollectionLayoutSection
 			var listConfig = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
 			listConfig.headerMode = sectionIndex == 0 ? .supplementary : .none
-			section = NSCollectionLayoutSection.list(using: listConfig, layoutEnvironment: layoutEnvironment)
-			return section
+			return NSCollectionLayoutSection.list(using: listConfig, layoutEnvironment: layoutEnvironment)
 		}
 		let listLayout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
