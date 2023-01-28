@@ -59,7 +59,7 @@ final class CHPackageCollectionViewCell: UICollectionViewCell {
 	// ! Private
 
 	private func setupUI() {
-		contentView.backgroundColor = .secondarySystemBackground
+		contentView.backgroundColor = .secondarySystemGroupedBackground
 		contentView.layer.cornerCurve = .continuous
 		contentView.layer.cornerRadius = 10
 

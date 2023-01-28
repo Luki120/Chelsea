@@ -19,7 +19,7 @@ final class CHPackageListView: UIView {
 		flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
 		collectionView.alpha = 0
-		collectionView.backgroundColor = .systemBackground
+		collectionView.backgroundColor = .systemGroupedBackground
 		collectionView.register(CHPackageCollectionViewCell.self, forCellWithReuseIdentifier: CHPackageCollectionViewCell.identifier)
 		addSubview(collectionView)
 		return collectionView
