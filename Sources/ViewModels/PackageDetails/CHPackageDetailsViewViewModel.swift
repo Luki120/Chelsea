@@ -8,7 +8,11 @@ protocol CHPackageDetailsViewViewModelDelegate: AnyObject {
 final class CHPackageDetailsViewViewModel: NSObject {
 
 	let package: Package
+
+	var price: String { package.status == "online" ? package.price : "Unavailable" }
 	var title: String { package.name ?? package.identifier }
+
+	var priceTextColor: UIColor { package.status == "online" ? .chelseaPurpleColor : .systemRed }
 
 	// ! Utilities
 

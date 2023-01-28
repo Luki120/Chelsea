@@ -6,6 +6,14 @@ final class CHPackageDetailsVC: UIViewController {
 	let viewModel: CHPackageDetailsViewViewModel
 	let chPackageDetailsView: CHPackageDetailsView
 
+	private lazy var priceLabel: UILabel = {
+		let label = UILabel()
+		label.text = viewModel.price
+		label.textColor = viewModel.priceTextColor
+		label.numberOfLines = 0
+		return label
+	}()
+
 	// ! Lifecycle
 
 	required init?(coder: NSCoder) {
@@ -31,6 +39,7 @@ final class CHPackageDetailsVC: UIViewController {
 	private func setupUI() {
 		title = viewModel.title
 		view.backgroundColor = .systemBackground
+		navigationItem.rightBarButtonItem = UIBarButtonItem(customView: priceLabel)
 	}
 
 }
