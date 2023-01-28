@@ -15,7 +15,7 @@ final class CHPackageListViewViewModel: NSObject {
 				let viewModel = CHPackageCollectionViewCellViewModel(
 					packageName: package.name ?? package.identifier,
 					packageDescription: package.description,
-					packageIconURL: package.packageIcon ?? .fallbackIcon,
+					packageIconURL: package.packageIcon ?? PackageIcon(package.section).section,
 					packageAuthor: .cleanAuthor(package.author ?? "Unknown") ?? "Unknown",
 					packageLatestVersion: package.latestVersion
 				)

@@ -40,7 +40,7 @@ final class CHPackageDetailsViewViewModel: NSObject {
 	// ! Private
 
 	private func setupModels() {
-		detailHeaderViewModel = .init(imageURLString: package.packageIcon ?? .fallbackIcon)
+		detailHeaderViewModel = .init(imageURLString: package.packageIcon ?? PackageIcon(package.section).section)
 
 		cellDetailViewModels = [
 			.init(mainText: package.name ?? "-"),

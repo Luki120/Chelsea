@@ -17,8 +17,6 @@ extension String {
 		guard let scannedString = scanner.scanUpToString("<") else { return nil }
 		return scannedString
 	}
-
-	static let fallbackIcon = "https://repo.packix.com/icons/tweak.png"
 }
 
 extension UIColor {
