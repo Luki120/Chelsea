@@ -21,6 +21,10 @@ extension String {
 	static let fallbackIcon = "https://repo.packix.com/icons/tweak.png"
 }
 
+extension UIColor {
+	static let chelseaPurpleColor = UIColor(red: 0.61, green: 0.54, blue: 1.0, alpha: 1.0)
+}
+
 extension UIView {
 	func addSubviews(_ views: UIView ...) {
 		views.forEach { addSubview($0) }

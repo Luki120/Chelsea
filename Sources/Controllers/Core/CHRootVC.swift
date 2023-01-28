@@ -11,17 +11,12 @@ final class CHRootVC: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		setupUI()
+		view.backgroundColor = .systemBackground
 		setupSearchController()
 		chPackageListView.delegate = self
 	}
 
 	// ! Private
-
-	private func setupUI() {
-		title = "Chelsea"
-		view.backgroundColor = .systemBackground
-	}
 
 	private func setupSearchController() {
 		let searchController = UISearchController()
