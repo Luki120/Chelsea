@@ -28,6 +28,14 @@ extension UIView {
 		views.forEach { addSubview($0) }
 	}
 
+	func createSpinnerView(withStyle style: UIActivityIndicatorView.Style, childOf view: UIView) -> UIActivityIndicatorView {
+		let spinnerView = UIActivityIndicatorView(style: style)
+		spinnerView.hidesWhenStopped = true
+		spinnerView.translatesAutoresizingMaskIntoConstraints = false
+		view.addSubview(spinnerView)
+		return spinnerView
+	}
+
 	func pinViewToAllEdges(_ view: UIView) {
 		view.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([

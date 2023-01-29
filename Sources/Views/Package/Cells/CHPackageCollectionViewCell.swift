@@ -27,6 +27,8 @@ final class CHPackageCollectionViewCell: UICollectionViewCell {
 		return stackView
 	}()
 
+	private lazy var spinnerView = createSpinnerView(withStyle: .medium, childOf: contentView) 
+
 	private var packageNameLabel: UILabel!
 	private var packageAuthorLabel: UILabel!
 	private var packageDescriptionLabel: UILabel!
@@ -54,17 +56,20 @@ final class CHPackageCollectionViewCell: UICollectionViewCell {
 		packageAuthorLabel.text = nil
 		packageDescriptionLabel.text = nil
 		packageImageView.image = nil
+		spinnerView.startAnimating()
 	}
 
 	// ! Private
 
 	private func setupUI() {
+		spinnerView.startAnimating()
+
 		contentView.backgroundColor = .secondarySystemGroupedBackground
 		contentView.layer.cornerCurve = .continuous
 		contentView.layer.cornerRadius = 10
 
-		packageNameLabel = createLabel(withFontSize: 14, textColor: .label, numberOfLines: 1)
-		packageAuthorLabel = createLabel(withFontSize: 12, textColor: .label, numberOfLines: 1)
+		packageNameLabel = createLabel(withFontSize: 14)
+		packageAuthorLabel = createLabel(withFontSize: 12)
 		packageDescriptionLabel = createLabel(withFontSize: 10, textColor: .secondaryLabel, numberOfLines: 3)
 
 		packageInfoStackView.addArrangedSubviews(packageNameLabel, packageAuthorLabel, packageDescriptionLabel)
@@ -79,11 +84,17 @@ final class CHPackageCollectionViewCell: UICollectionViewCell {
 		packageInfoStackView.centerYAnchor.constraint(equalTo: packageImageView.centerYAnchor).isActive = true		
 		packageInfoStackView.leadingAnchor.constraint(equalTo: packageImageView.trailingAnchor, constant: 10).isActive = true
 		packageInfoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+
+		spinnerView.centerXAnchor.constraint(equalTo: packageImageView.centerXAnchor).isActive = true
+		spinnerView.centerYAnchor.constraint(equalTo: packageImageView.centerYAnchor).isActive = true
+		spinnerView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+		spinnerView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+
 	}
 
 	// ! Reusable
 
-	private func createLabel(withFontSize size: CGFloat, textColor: UIColor, numberOfLines lines: Int) -> UILabel {
+	private func createLabel(withFontSize size: CGFloat, textColor: UIColor = .label, numberOfLines lines: Int = 1) -> UILabel {
 		let label = UILabel()
 		label.font = .systemFont(ofSize: size)
 		label.textColor = textColor
@@ -109,7 +120,15 @@ extension CHPackageCollectionViewCell {
 			switch result {
 				case .success(let image):
 					DispatchQueue.main.async {
-						self.packageImageView.image = image
+						switch CHImageManager.sharedInstance.imageState {
+							case .loading:
+								self.packageImageView.image = image
+							case .loaded:
+								UIView.transition(with: self.packageImageView, duration: 0.5, options: .transitionCrossDissolve) {
+									self.packageImageView.image = image
+								}
+						}
+						self.spinnerView.stopAnimating()
 					}
 				case .failure: break
 			}

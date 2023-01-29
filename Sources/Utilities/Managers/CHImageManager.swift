@@ -8,9 +8,18 @@ final class CHImageManager {
 
 	private let imageCache = NSCache<NSString, UIImage>()
 
+	enum ImageState {
+		case loading
+		case loaded
+	}
+
+	private(set) var imageState: ImageState = .loading
+
 	func fetchImage(_ urlString: String, completion: @escaping (Result<UIImage, Error>) -> ()) {
+		imageState = .loading
 		if let cachedImage = imageCache.object(forKey: urlString as NSString) {
 			completion(.success(cachedImage))
+			imageState = .loading
 			return
 		}
 
@@ -26,6 +35,7 @@ final class CHImageManager {
 			}
 			self.imageCache.setObject(image, forKey: urlString as NSString)
 			completion(.success(image))
+			self.imageState = .loaded
 		}
 		task.resume()
 	}

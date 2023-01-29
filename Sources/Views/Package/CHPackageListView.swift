@@ -25,13 +25,7 @@ final class CHPackageListView: UIView {
 		return collectionView
 	}()
 
-	private lazy var spinnerView: UIActivityIndicatorView = {
-		let spinnerView = UIActivityIndicatorView(style: .large)
-		spinnerView.hidesWhenStopped = true
-		spinnerView.translatesAutoresizingMaskIntoConstraints = false
-		addSubview(spinnerView)
-		return spinnerView
-	}()
+	private lazy var spinnerView = createSpinnerView(withStyle: .large, childOf: self)
 
 	weak var delegate: CHPackageListViewDelegate?
 
@@ -83,8 +77,17 @@ final class CHPackageListView: UIView {
 			.sink { [weak self] in
 				self?.packageListViewModel.wipeViewModels()
 				self?.packageListViewModel.fetchPackages(fromQuery: $0)
+				self?.setupDataSourceTransition()
 			}
 			.store(in: &subscriptions)
+	}
+
+	private func setupDataSourceTransition() {
+		let transition = CATransition()
+		transition.type = .fade
+		transition.duration = 0.6
+		transition.timingFunction = .init(name: .easeInEaseOut)
+		packagesCollectionView.layer.add(transition, forKey: nil)
 	}
 
 }
