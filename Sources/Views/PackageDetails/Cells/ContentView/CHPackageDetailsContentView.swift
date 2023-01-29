@@ -63,6 +63,7 @@ final class CHPackageDetailsContentView: UIView, UIContentView {
 		currentConfiguration = configuration
 
 		mainLabel.text = configuration.mainText
+		mainLabel.textColor = configuration.textColor
 		secondaryLabel.text = configuration.secondaryText
 	}
 

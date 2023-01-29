@@ -3,12 +3,14 @@ import UIKit
 
 protocol CHPackageDetailsViewViewModelDelegate: AnyObject {
 	func didSelectAuthorCell()
+	func didSelectViewDepictionCell()
 }
 
 final class CHPackageDetailsViewViewModel: NSObject {
 
 	let package: Package
 
+	var depictionURL: String { package.depiction ?? "" }
 	var price: String { package.status == "online" ? package.price : "Unavailable" }
 	var title: String { package.name ?? package.identifier }
 
@@ -55,8 +57,11 @@ final class CHPackageDetailsViewViewModel: NSObject {
 		]
 
 		footerViewModel = [
-			.init(mainText: package.description)
+			.init(mainText: package.description),
 		]
+
+		guard package.depiction != nil else { return }
+		footerViewModel.append(.init(mainText: "View depiction", textColor: .chelseaPurpleColor))
 	}
 
 }
@@ -67,12 +72,21 @@ extension CHPackageDetailsViewViewModel: UICollectionViewDelegate {
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		collectionView.deselectItem(at: indexPath, animated: true)
-		guard authorEmail != nil, indexPath.section == 0 else { return }
-		switch indexPath.row {
-			case 2: delegate?.didSelectAuthorCell()
+		switch indexPath.section {
+			case 0:
+				switch indexPath.row {
+					case 2:
+						guard authorEmail != nil else { return } 
+						delegate?.didSelectAuthorCell()
+					default: break
+				}
+			case 1:
+				switch indexPath.row {
+					case 1: delegate?.didSelectViewDepictionCell()
+					default: break
+				}
 			default: break
 		}
-
 	}
 
 	func setupListCollectionView(_ listCollectionView: UICollectionView) {

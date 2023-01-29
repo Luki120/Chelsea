@@ -9,6 +9,7 @@ final class CHPackageDetailsCollectionViewListCell: UICollectionViewListCell {
 		var newConfiguration = CHPackageDetailsContentConfiguration().updated(for: state)
 		newConfiguration.mainText = viewModel?.displayMainText
 		newConfiguration.secondaryText = viewModel?.displaySecondaryText
+		newConfiguration.textColor = viewModel?.displayTextColor
 
 		contentConfiguration = newConfiguration
 	}

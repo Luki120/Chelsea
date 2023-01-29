@@ -1,3 +1,4 @@
+import SafariServices
 import UIKit
 
 
@@ -53,4 +54,10 @@ extension CHPackageDetailsVC: CHPackageDetailsViewDelegate {
 		UIApplication.shared.open(url, options: [:], completionHandler: nil)
 	}
 
+	func chPackageDetailsViewDidSelectViewDepictionCell() {
+		guard let url = URL(string: viewModel.depictionURL) else { return }
+		let safariVC = SFSafariViewController(url: url)
+		safariVC.modalPresentationStyle = .pageSheet
+		present(safariVC, animated: true)
+	} 
 }

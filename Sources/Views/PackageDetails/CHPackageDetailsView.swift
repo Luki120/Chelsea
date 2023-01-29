@@ -3,6 +3,7 @@ import UIKit
 
 protocol CHPackageDetailsViewDelegate: AnyObject {
 	func chPackageDetailsViewDidSelectAuthorCell()
+	func chPackageDetailsViewDidSelectViewDepictionCell()
 }
 
 final class CHPackageDetailsView: UIView {
@@ -63,6 +64,10 @@ extension CHPackageDetailsView: CHPackageDetailsViewViewModelDelegate {
 
 	func didSelectAuthorCell() {
 		delegate?.chPackageDetailsViewDidSelectAuthorCell()
+	}
+
+	func didSelectViewDepictionCell() {
+		delegate?.chPackageDetailsViewDidSelectViewDepictionCell()	
 	}
 
 }
