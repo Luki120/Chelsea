@@ -35,6 +35,11 @@ final class CHPackageDetailsVC: UIViewController {
 		setupUI()
 	}
 
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		shouldHideTabView(true)
+	}
+
 	// ! Private
 
 	private func setupUI() {

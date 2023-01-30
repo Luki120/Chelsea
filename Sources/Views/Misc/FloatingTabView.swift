@@ -111,6 +111,21 @@ final class FloatingTabView: UIView {
 
 }
 
+extension FloatingTabView {
+
+	// ! Public
+
+	func shouldHide(_ hide: Bool) {
+		if !hide { isHidden = hide }
+		UIView.animate(withDuration: 0.35, delay: 0, options: .curveEaseOut, animations: {
+			self.alpha = hide ? 0 : 1
+		}) { _ in
+			if hide { self.isHidden = hide }
+		}
+	}
+
+}
+
 private extension UIButton {
 
 	func setPulseAnimation() {

@@ -14,6 +14,14 @@ final class CHRootVC: UIViewController {
 		view.backgroundColor = .systemBackground
 		setupSearchController()
 		chPackageListView.delegate = self
+
+		let chTabBarController = tabBarController as? CHTabBarVC
+		chTabBarController?.chDelegate = self
+	}
+
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		shouldHideTabView(false)
 	}
 
 	// ! Private
@@ -37,6 +45,18 @@ extension CHRootVC: CHPackageListViewDelegate {
 		let viewModel = CHPackageDetailsViewViewModel(package: package)
 		let packageDetailsVC = CHPackageDetailsVC(viewModel: viewModel)
 		navigationController?.pushViewController(packageDetailsVC, animated: true)
+	}
+
+}
+
+// ! CHTabBarVCDelegate
+
+extension CHRootVC: CHTabBarVCDelegate {
+
+	func didSelectTabBarItem() {
+ 		let selector = NSSelectorFromString("_scrollToTopIfPossible:")
+		guard chPackageListView.collectionView.responds(to: selector) else { return }
+		chPackageListView.collectionView.performSelector(onMainThread: selector, with: true, waitUntilDone: true)
 	}
 
 }

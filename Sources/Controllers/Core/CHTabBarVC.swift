@@ -1,9 +1,15 @@
 import UIKit
 
 
+protocol CHTabBarVCDelegate: AnyObject {
+	func didSelectTabBarItem()
+}
+
 final class CHTabBarVC: UITabBarController {
 
 	private let floatingTabView = FloatingTabView(withItems: ["shippingbox", "gear"])
+
+	weak var chDelegate: CHTabBarVCDelegate?
 
 	// ! Lifecycle
 
@@ -43,6 +49,12 @@ final class CHTabBarVC: UITabBarController {
 		floatingTabView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
 	}
 
+	// ! Public
+
+	func shouldHideFloatingTabView(_ hide: Bool) {
+		floatingTabView.shouldHide(hide)
+	}
+
 }
 
 // ! FloatingTabViewDelegate
@@ -51,8 +63,7 @@ extension CHTabBarVC: FloatingTabViewDelegate {
 
 	func didSelect(index: Int) {
 		selectedIndex = index
-		guard let vc = viewControllers?[selectedIndex] as? UINavigationController else { return }
-		vc.popViewController(animated: true)
+		chDelegate?.didSelectTabBarItem()
 	}
 
 }
