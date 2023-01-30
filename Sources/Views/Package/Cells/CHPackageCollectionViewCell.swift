@@ -118,16 +118,15 @@ extension CHPackageCollectionViewCell {
 		viewModel.fetchImage { [weak self] result in
 			guard let self = self, self.activeViewModel == viewModel else { return }
 			switch result {
-				case .success(let image):
+				case .success((let image, let isFromNetwork)):
 					DispatchQueue.main.async {
-						switch CHImageManager.sharedInstance.imageState {
-							case .loading:
+						guard !isFromNetwork else {
+							UIView.transition(with: self.packageImageView, duration: 0.5, options: .transitionCrossDissolve) {
 								self.packageImageView.image = image
-							case .loaded:
-								UIView.transition(with: self.packageImageView, duration: 0.5, options: .transitionCrossDissolve) {
-									self.packageImageView.image = image
-								}
+							}
+							return
 						}
+						self.packageImageView.image = image
 						self.spinnerView.stopAnimating()
 					}
 				case .failure: break

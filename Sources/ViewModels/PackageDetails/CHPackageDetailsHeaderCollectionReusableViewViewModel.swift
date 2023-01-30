@@ -9,7 +9,7 @@ struct CHPackageDetailsHeaderCollectionReusableViewViewModel {
 		self.imageURLString = imageURLString
 	}
 
-	func fetchHeaderImage(completion: @escaping (Result<UIImage, Error>) -> ()) {
+	func fetchHeaderImage(completion: @escaping (Result<(image: UIImage, isFromNetwork: Bool), Error>) -> ()) {
 		guard let imageURLString = imageURLString else {
 			completion(.failure(URLError(.badURL)))
 			return

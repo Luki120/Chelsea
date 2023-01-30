@@ -23,7 +23,7 @@ final class CHPackageCollectionViewCellViewModel: Hashable {
 		self.packageLatestVersion = packageLatestVersion
 	}
 
-	func fetchImage(completion: @escaping (Result<UIImage, Error>) -> ()) {
+	func fetchImage(completion: @escaping (Result<(image: UIImage, isFromNetwork: Bool), Error>) -> ()) {
 		guard let urlString = packageIconURL else {
 			completion(.failure(URLError(.badURL)))
 			return

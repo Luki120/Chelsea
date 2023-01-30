@@ -52,7 +52,7 @@ extension CHPackageDetailsHeaderCollectionReusableView {
 	func configure(with viewModel: CHPackageDetailsHeaderCollectionReusableViewViewModel) {
 		viewModel.fetchHeaderImage { [weak self] result in
 			switch result {
-				case .success(let image):
+				case .success((let image, _)):
 					DispatchQueue.main.async {
 						self?.headerImageView.image = image
 					}
