@@ -16,10 +16,11 @@ final class CHPackageListView: UIView {
 	private lazy var packagesCollectionView: UICollectionView = {
 		let flowLayout = UICollectionViewFlowLayout()
 		flowLayout.scrollDirection = .vertical
-		flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+		flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
 		collectionView.alpha = 0
 		collectionView.backgroundColor = .systemGroupedBackground
+		collectionView.showsVerticalScrollIndicator = false
 		collectionView.register(CHPackageCollectionViewCell.self, forCellWithReuseIdentifier: CHPackageCollectionViewCell.identifier)
 		addSubview(collectionView)
 		return collectionView
@@ -28,6 +29,8 @@ final class CHPackageListView: UIView {
 	private lazy var spinnerView = createSpinnerView(withStyle: .large, childOf: self)
 
 	weak var delegate: CHPackageListViewDelegate?
+
+	var collectionView: UICollectionView { return packagesCollectionView }
 
 	// ! Lifecycle
 
@@ -60,7 +63,7 @@ final class CHPackageListView: UIView {
 	}
 
 	private func layoutUI() {
-		pinViewToAllEdges(packagesCollectionView)
+		pinViewToAllEdges(packagesCollectionView, leadingConstant: 20, trailingConstant: -20)
 
 		spinnerView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
 		spinnerView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
@@ -71,8 +74,8 @@ final class CHPackageListView: UIView {
 	private func setupViewModels() {
 		packageListViewModel.delegate = self
 		packageListViewModel.fetchPackages()
- 
-		searchQueryViewModel.$searchQuery
+
+		searchQueryViewModel.searchQuerySubject
 			.debounce(for: .seconds(0.8), scheduler: DispatchQueue.main)
 			.sink { [weak self] in
 				self?.packageListViewModel.wipeViewModels()
@@ -92,15 +95,21 @@ final class CHPackageListView: UIView {
 
 }
 
+// ! CHPackageListViewViewModelDelegate
+
 extension CHPackageListView: CHPackageListViewViewModelDelegate {
 
 	func didFetchPackages() {
-		spinnerView.stopAnimating()
-		packagesCollectionView.reloadData()
+		guard packageListViewModel.isFromQuery else {
+			spinnerView.stopAnimating()
+			packagesCollectionView.reloadData()
 
-		UIView.animate(withDuration: 0.5, delay: 0, options: .transitionCrossDissolve) {
-			self.packagesCollectionView.alpha = 1
+			UIView.animate(withDuration: 0.5, delay: 0, options: .transitionCrossDissolve) {
+				self.packagesCollectionView.alpha = 1
+			}
+			return
 		}
+		packagesCollectionView.reloadData()
 	}
 
 	func didSelect(package: Package) {
@@ -109,12 +118,14 @@ extension CHPackageListView: CHPackageListViewViewModelDelegate {
 
 }
 
+// ! UISearchResultsUpdating
+
 extension CHPackageListView: UISearchResultsUpdating {
 
 	func updateSearchResults(for searchController: UISearchController) {
 		let textToSearch = searchController.searchBar.text!.trimmingCharacters(in: .whitespacesAndNewlines)
 		guard !textToSearch.isEmpty else { return }
-		searchQueryViewModel.searchQuery = textToSearch
+		searchQueryViewModel.searchQuerySubject.send(textToSearch)
 	}
 
 }

@@ -1,8 +1,8 @@
-import UIKit
+import Combine
 
 
 final class CHPackageSearchQueryViewModel: ObservableObject {
 
-	@Published var searchQuery = ""
+	let searchQuerySubject = PassthroughSubject<String, Never>()
 
 }

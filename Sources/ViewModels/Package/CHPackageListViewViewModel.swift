@@ -26,11 +26,15 @@ final class CHPackageListViewViewModel: NSObject {
 		}
 	}
 
+	private(set) var isFromQuery = false
+
 	weak var delegate: CHPackageListViewViewModelDelegate?
 
 	// ! Public
 
 	func fetchPackages(fromQuery query: String? = nil) {
+ 		isFromQuery = query == nil || query == "" ? false : true
+
 		CHService.sharedInstance.fetchPackages(
 			withURLString: "\(CHService.Constants.baseURL)\(query ?? "")",
 			expecting: APIResponse.self
@@ -69,7 +73,7 @@ extension CHPackageListViewViewModel: UICollectionViewDataSource, UICollectionVi
 	}
 
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: UIScreen.main.bounds.size.width - 30, height: 85)
+		return CGSize(width: collectionView.bounds.size.width, height: 85)
 	}
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

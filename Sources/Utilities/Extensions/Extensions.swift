@@ -36,13 +36,19 @@ extension UIView {
 		return spinnerView
 	}
 
-	func pinViewToAllEdges(_ view: UIView) {
+	func pinViewToAllEdges(
+		_ view: UIView,
+		topConstant: CGFloat = 0,
+		bottomConstant: CGFloat = 0,
+		leadingConstant: CGFloat = 0,
+		trailingConstant: CGFloat = 0
+	) {
 		view.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
-			view.topAnchor.constraint(equalTo: topAnchor),
-			view.bottomAnchor.constraint(equalTo: bottomAnchor),
-			view.leadingAnchor.constraint(equalTo: leadingAnchor),
-			view.trailingAnchor.constraint(equalTo: trailingAnchor)
+			view.topAnchor.constraint(equalTo: topAnchor, constant: topConstant),
+			view.bottomAnchor.constraint(equalTo: bottomAnchor, constant: bottomConstant),
+			view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
+			view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: trailingConstant)
 		])
 	}
 }
@@ -50,5 +56,12 @@ extension UIView {
 extension UIStackView {
 	func addArrangedSubviews(_ views: UIView ...) {
 		views.forEach { addArrangedSubview($0) }
+	}
+}
+
+extension UIViewController {
+	func shouldHideTabView(_ hide: Bool) {
+		guard let tabBarVC = tabBarController as? CHTabBarVC else { return }
+		tabBarVC.shouldHideFloatingTabView(hide)
 	}
 }
