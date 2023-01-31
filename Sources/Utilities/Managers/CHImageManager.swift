@@ -14,7 +14,7 @@ final class CHImageManager {
 			return
 		}
 
-		guard let url = URL(string: urlString) else {
+		guard let url = URL(string: isValidURL(urlString)) else {
 			completion(.failure(URLError(.badURL)))
 			return
 		}
@@ -28,6 +28,13 @@ final class CHImageManager {
 			completion(.success((image, true)))
 		}
 		task.resume()
+	}
+
+	private func isValidURL(_ urlString: String) -> String {
+		guard let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) else {
+			return "https://repo.packix.com/icons/tweak.png"
+		}
+		return urlString
 	}
 
 }
