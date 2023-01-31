@@ -5,6 +5,8 @@ final class CHRootVC: UIViewController {
 
 	private let chPackageListView = CHPackageListView()
 
+	var coordinator: HomeCoordinator?
+
 	// ! Lifecycle
 
 	override func loadView() { view = chPackageListView }
@@ -42,9 +44,7 @@ final class CHRootVC: UIViewController {
 extension CHRootVC: CHPackageListViewDelegate {
 
 	func chPackageListViewDidSelect(package: Package) {
-		let viewModel = CHPackageDetailsViewViewModel(package: package)
-		let packageDetailsVC = CHPackageDetailsVC(viewModel: viewModel)
-		navigationController?.pushViewController(packageDetailsVC, animated: true)
+		coordinator?.eventOccurred(with: .packageCellTapped(package: package))
 	}
 
 }

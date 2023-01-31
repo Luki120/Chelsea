@@ -8,6 +8,8 @@ protocol CHTabBarVCDelegate: AnyObject {
 final class CHTabBarVC: UITabBarController {
 
 	private let floatingTabView = FloatingTabView(withItems: ["shippingbox", "gear"])
+	private let homeCoordinator = HomeCoordinator()
+	private let settingsCoordinator = SettingsCoordinator()
 
 	weak var chDelegate: CHTabBarVCDelegate?
 
@@ -19,17 +21,7 @@ final class CHTabBarVC: UITabBarController {
 
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 		super.init(nibName: nil, bundle: nil)
-
-		let coreVC = CHRootVC()
-		let settingsVC = CHSettingsVC()
-
-		coreVC.title = "Chelsea"
-		settingsVC.title = "Settings"
-
-		let firstNav = UINavigationController(rootViewController: coreVC)
-		let secondNav = UINavigationController(rootViewController: settingsVC)
-
-		viewControllers = [firstNav, secondNav]
+		viewControllers = [homeCoordinator.navigationController, settingsCoordinator.navigationController]
 	}
 
 	override func viewDidLoad() {

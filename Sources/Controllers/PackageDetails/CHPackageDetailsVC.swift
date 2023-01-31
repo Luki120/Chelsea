@@ -1,4 +1,3 @@
-import SafariServices
 import UIKit
 
 
@@ -6,6 +5,8 @@ final class CHPackageDetailsVC: UIViewController {
 
 	let viewModel: CHPackageDetailsViewViewModel
 	let chPackageDetailsView: CHPackageDetailsView
+
+	var coordinator: HomeCoordinator?
 
 	private lazy var priceLabel: UILabel = {
 		let label = UILabel()
@@ -55,14 +56,11 @@ final class CHPackageDetailsVC: UIViewController {
 extension CHPackageDetailsVC: CHPackageDetailsViewDelegate {
 
 	func chPackageDetailsViewDidSelectAuthorCell() {
-		guard let url = URL(string: "mailto:\(viewModel.authorEmail!)") else { return }
-		UIApplication.shared.open(url, options: [:], completionHandler: nil)
+		coordinator?.eventOccurred(with: .authorCellTapped)
 	}
 
 	func chPackageDetailsViewDidSelectViewDepictionCell() {
-		guard let url = URL(string: viewModel.depictionURL) else { return }
-		let safariVC = SFSafariViewController(url: url)
-		safariVC.modalPresentationStyle = .pageSheet
-		present(safariVC, animated: true)
+		coordinator?.eventOccurred(with: .depictionCellTapped)
 	} 
+
 }
