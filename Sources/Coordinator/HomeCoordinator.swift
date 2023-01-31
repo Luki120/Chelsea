@@ -10,13 +10,11 @@ final class HomeCoordinator: Coordinator {
 		case depictionCellTapped
 	}
 
-	var navigationController: UINavigationController
+	var navigationController = UINavigationController()
 
 	private var packageDetailsVC: CHPackageDetailsVC!
 
-	init(navigationController: UINavigationController = UINavigationController()) {
-		self.navigationController = navigationController
-
+	init() {
 		let homeVC = CHRootVC()
 		homeVC.coordinator = self
 		homeVC.title = "Chelsea"

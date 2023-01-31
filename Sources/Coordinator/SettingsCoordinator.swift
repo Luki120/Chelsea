@@ -5,11 +5,9 @@ final class SettingsCoordinator: Coordinator {
 
 	enum Event {}
 
-	var navigationController: UINavigationController
+	var navigationController = UINavigationController()
 
-	init(navigationController: UINavigationController = UINavigationController()) {
-		self.navigationController = navigationController
-
+	init() {
 		let settingsVC = CHSettingsVC()
 		settingsVC.coordinator = self
 		settingsVC.title = "Settings"
