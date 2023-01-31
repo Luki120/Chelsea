@@ -15,7 +15,7 @@ final class HomeCoordinator: Coordinator {
 	private var packageDetailsVC: CHPackageDetailsVC!
 
 	init() {
-		let homeVC = CHRootVC()
+		let homeVC = CHHomeVC()
 		homeVC.coordinator = self
 		homeVC.title = "Chelsea"
 

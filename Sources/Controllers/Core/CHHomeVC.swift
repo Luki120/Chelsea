@@ -1,7 +1,7 @@
 import UIKit
 
 
-final class CHRootVC: UIViewController {
+final class CHHomeVC: UIViewController {
 
 	private let chPackageListView = CHPackageListView()
 
@@ -41,7 +41,7 @@ final class CHRootVC: UIViewController {
 
 // ! CHPackagesViewDelegate
 
-extension CHRootVC: CHPackageListViewDelegate {
+extension CHHomeVC: CHPackageListViewDelegate {
 
 	func chPackageListViewDidSelect(package: Package) {
 		coordinator?.eventOccurred(with: .packageCellTapped(package: package))
@@ -51,7 +51,7 @@ extension CHRootVC: CHPackageListViewDelegate {
 
 // ! CHTabBarVCDelegate
 
-extension CHRootVC: CHTabBarVCDelegate {
+extension CHHomeVC: CHTabBarVCDelegate {
 
 	func didSelectTabBarItem() {
  		let selector = NSSelectorFromString("_scrollToTopIfPossible:")
