@@ -7,7 +7,7 @@ protocol CHTabBarVCDelegate: AnyObject {
 
 final class CHTabBarVC: UITabBarController {
 
-	private let floatingTabView = FloatingTabView(withItems: ["shippingbox", "gear"])
+	private let floatingTabView = CHFloatingTabView(withItems: ["shippingbox", "gear"])
 	private let homeCoordinator = HomeCoordinator()
 	private let settingsCoordinator = SettingsCoordinator()
 
@@ -51,7 +51,7 @@ final class CHTabBarVC: UITabBarController {
 
 // ! FloatingTabViewDelegate
 
-extension CHTabBarVC: FloatingTabViewDelegate {
+extension CHTabBarVC: CHFloatingTabViewDelegate {
 
 	func didSelect(index: Int) {
 		selectedIndex = index
