@@ -4,17 +4,15 @@ import UIKit
 
 final class CHSettingsVC: UIViewController {
 
-	var coordinator: SettingsCoordinator?
+	private let viewModel = CHSettingsViewViewModel()
 	private var swiftUIVC: UIHostingController<CHSettingsView>!
-	private var viewModel: CHSettingsViewViewModel!
-
-	private var lukiIcon = "https://avatars.githubusercontent.com/u/74214115?v=4"
-	private var zemyoroIcon = "https://avatars.githubusercontent.com/u/85952603?v=4"
+	var coordinator: SettingsCoordinator?
 
 	// ! Lifecycle
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		viewModel.delegate = self
 		view.backgroundColor = .systemBackground
 		setupUI()
 	}
@@ -27,15 +25,6 @@ final class CHSettingsVC: UIViewController {
 	// ! Private
 
 	func setupUI() {
-		viewModel = CHSettingsViewViewModel(cellViewModels: [
-			.init(developer: .luki, imageURLString: lukiIcon) { [weak self] developer in
-				self?.didTapDev(developer)
-			},
-			.init(developer: .zemyoro, imageURLString: zemyoroIcon) { [weak self] developer in
-				self?.didTapDev(developer)
-			}
-		])
-
 		swiftUIVC = UIHostingController(rootView: CHSettingsView(viewModel: viewModel))
 		addChild(swiftUIVC)
 		swiftUIVC.didMove(toParent: self)
@@ -44,8 +33,22 @@ final class CHSettingsVC: UIViewController {
 		swiftUIVC.view.translatesAutoresizingMaskIntoConstraints = false
 	}
 
-	private func didTapDev(_ developer: CHSettingsDeveloper) {
+}
+
+// ! CHSettingsViewViewModelDelegate
+
+extension CHSettingsVC: CHSettingsViewViewModelDelegate {
+
+	func didTapDev(_ developer: CHSettingsDeveloper) {
 		coordinator?.eventOccurred(with: .devCellTapped(developer: developer))
+	}
+
+	func didTapApp(_ app: CHSettingsApp) {
+		coordinator?.eventOccurred(with: .appCellTapped(app: app))
+	}
+
+	func didTapSourceCodeButton() {
+		coordinator?.eventOccurred(with: .sourceCodeButtonTapped)
 	}
 
 }
