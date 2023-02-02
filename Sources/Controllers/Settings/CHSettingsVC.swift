@@ -24,7 +24,7 @@ final class CHSettingsVC: UIViewController {
 
 	// ! Private
 
-	func setupUI() {
+	private func setupUI() {
 		swiftUIVC = UIHostingController(rootView: CHSettingsView(viewModel: viewModel))
 		addChild(swiftUIVC)
 		swiftUIVC.didMove(toParent: self)

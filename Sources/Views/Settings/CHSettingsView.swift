@@ -10,7 +10,7 @@ struct CHSettingsView: View {
 			Section(header: Text("Developers")) {
 				HStack {
 					ForEach(Array(viewModel.ghCellViewModels.enumerated()), id: \.1.id) { index, viewModel in
-						CHGitHubCellView(viewModel: viewModel)
+						CHSettingsGitHubCellView(viewModel: viewModel)
 							.padding(.horizontal, 2.5)
 							.onTapGesture {
 								viewModel.onTap(viewModel.developer)
@@ -35,24 +35,17 @@ struct CHSettingsView: View {
 				}
 			}
 
-			Group {
-				Section(footer: SourceCodeButton()) {}
-
-				Section(footer: Text("© 2023 Luki120").font(.caption)) {}
-					.padding(.top, -30)
+			Section(header: Text("View the source")) {
+				Button("Source Code") {
+					viewModel.footerViewModel.onTap()
+				}
+				.foregroundColor(.primary)
 			}
-			.frame(maxWidth: .infinity, alignment: .center)
+
+			Section(footer: Text("© 2023 Luki120").font(.caption)) {}
+				.frame(maxWidth: .infinity, alignment: .center)
 		}
 		.listStyle(.insetGrouped)
-	}
-
-	@ViewBuilder
-	private func SourceCodeButton() -> some View {
-		Button("Source Code") {
-			viewModel.footerViewModel.onTap()
-		}
-		.font(.system(size: 16))
-		.foregroundColor(.secondary)
 	}
 
 }

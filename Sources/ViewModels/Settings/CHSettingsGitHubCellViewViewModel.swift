@@ -1,7 +1,7 @@
 import UIKit
 
 
-final class CHGitHubCellViewModel: Identifiable, ObservableObject {
+final class CHSettingsGitHubCellViewViewModel: Identifiable, ObservableObject {
 
 	private(set) var id = UUID()
 	@Published private(set) var image = UIImage()

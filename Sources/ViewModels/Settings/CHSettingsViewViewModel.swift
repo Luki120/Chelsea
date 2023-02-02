@@ -12,7 +12,7 @@ final class CHSettingsViewViewModel {
 	private var lukiIcon = "https://avatars.githubusercontent.com/u/74214115?v=4"
 	private var zemyoroIcon = "https://avatars.githubusercontent.com/u/85952603?v=4"
 
-	private(set) var ghCellViewModels = [CHGitHubCellViewModel]()
+	private(set) var ghCellViewModels = [CHSettingsGitHubCellViewViewModel]()
 	private(set) var appCellViewModels = [CHSettingsAppCellViewModel]()
 	private(set) var footerViewModel: CHSettingsFooterViewModel!
 
