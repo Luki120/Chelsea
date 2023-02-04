@@ -1,6 +1,6 @@
 import UIKit
 
-
+/// Controller that'll show the package details view
 final class CHPackageDetailsVC: UIViewController {
 
 	let viewModel: CHPackageDetailsViewViewModel

@@ -1,6 +1,6 @@
 import UIKit
 
-
+/// Class to represent the content view for the package details cell
 final class CHPackageDetailsContentView: UIView, UIContentView {
 
 	private var currentConfiguration: CHPackageDetailsContentConfiguration!

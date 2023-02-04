@@ -1,7 +1,7 @@
 import SafariServices
 import UIKit
 
-
+/// Settings coordinator, which will take care of any navigation events related to CHSettingsVC
 final class SettingsCoordinator: Coordinator {
 
 	enum Event {

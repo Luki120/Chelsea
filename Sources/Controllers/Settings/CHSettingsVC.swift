@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-
+/// Controller that'll show the settings view
 final class CHSettingsVC: UIViewController {
 
 	private let viewModel = CHSettingsViewViewModel()

@@ -1,6 +1,6 @@
 import Foundation
 
-
+/// Enum to represent some of the possible sections a package may belong to
 enum PackageIcon: String {
 	case addons = "Addons"
 	case applications = "Applications"

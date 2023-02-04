@@ -1,6 +1,6 @@
 import UIKit
 
-
+/// Class to represent the package details cell
 final class CHPackageDetailsCollectionViewListCell: UICollectionViewListCell {
 
 	var viewModel: CHPackageDetailsCollectionViewListCellViewModel?

@@ -6,6 +6,7 @@ protocol CHPackageDetailsViewViewModelDelegate: AnyObject {
 	func didSelectViewDepictionCell()
 }
 
+/// View model class for CHPackageDetailsView
 final class CHPackageDetailsViewViewModel: NSObject {
 
 	let package: Package
@@ -37,6 +38,9 @@ final class CHPackageDetailsViewViewModel: NSObject {
 
 	weak var delegate: CHPackageDetailsViewViewModelDelegate?
 
+	/// Designated initializer
+	/// - Parameters:
+	/// 	- package: the package model object
 	init(package: Package) {
 		self.package = package
 		super.init()
@@ -57,7 +61,7 @@ final class CHPackageDetailsViewViewModel: NSObject {
 		]
 
 		footerViewModel = [
-			.init(mainText: package.description),
+			.init(mainText: package.description)
 		]
 
 		guard package.depiction != nil else { return }
@@ -68,27 +72,11 @@ final class CHPackageDetailsViewViewModel: NSObject {
 
 // ! CollectionView
 
-extension CHPackageDetailsViewViewModel: UICollectionViewDelegate {
+extension CHPackageDetailsViewViewModel {
 
-	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		collectionView.deselectItem(at: indexPath, animated: true)
-		switch indexPath.section {
-			case 0:
-				switch indexPath.row {
-					case 2:
-						guard authorEmail != nil else { return } 
-						delegate?.didSelectAuthorCell()
-					default: break
-				}
-			case 1:
-				switch indexPath.row {
-					case 1: delegate?.didSelectViewDepictionCell()
-					default: break
-				}
-			default: break
-		}
-	}
-
+	/// Function to setup the list collection view's data source
+	/// - Parameters:
+	///		- listCollectionView: the collection view
 	func setupListCollectionView(_ listCollectionView: UICollectionView) {
 		let cellRegistration = UICollectionView.CellRegistration
 		<CHPackageDetailsCollectionViewListCell, CHPackageDetailsCollectionViewListCellViewModel> { cell, _, viewModel in
@@ -123,6 +111,29 @@ extension CHPackageDetailsViewViewModel: UICollectionViewDelegate {
 
 		dataSource.supplementaryViewProvider = { collectionView, _, indexPath -> UICollectionReusableView? in
 			return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+		}
+	}
+
+}
+
+extension CHPackageDetailsViewViewModel: UICollectionViewDelegate {
+
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		collectionView.deselectItem(at: indexPath, animated: true)
+		switch indexPath.section {
+			case 0:
+				switch indexPath.row {
+					case 2:
+						guard authorEmail != nil else { return } 
+						delegate?.didSelectAuthorCell()
+					default: break
+				}
+			case 1:
+				switch indexPath.row {
+					case 1: delegate?.didSelectViewDepictionCell()
+					default: break
+				}
+			default: break
 		}
 	}
 

@@ -1,6 +1,6 @@
 import UIKit
 
-
+/// Class to represent the package cell
 final class CHPackageCollectionViewCell: UICollectionViewCell {
 
 	static let identifier = "CHPackageCollectionViewCell"
@@ -108,6 +108,9 @@ extension CHPackageCollectionViewCell {
 
 	// ! Public
 
+	/// Function to configure the cell with its respective view model
+	/// - Parameters:
+	/// 	- with: The cell's view model
 	func configure(with viewModel: CHPackageCollectionViewCellViewModel) {
 		activeViewModel = viewModel
 

@@ -5,6 +5,7 @@ protocol CHTabBarVCDelegate: AnyObject {
 	func didSelectTabBarItem()
 }
 
+/// Root view controller, which will show our tabs
 final class CHTabBarVC: UITabBarController {
 
 	private let floatingTabView = CHFloatingTabView(withItems: ["shippingbox", "gear"])

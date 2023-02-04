@@ -23,6 +23,12 @@ extension UIColor {
 	static let chelseaPurpleColor = UIColor(red: 0.61, green: 0.54, blue: 1.0, alpha: 1.0)
 }
 
+extension UIStackView {
+	func addArrangedSubviews(_ views: UIView ...) {
+		views.forEach { addArrangedSubview($0) }
+	}
+}
+
 extension UIView {
 	func addSubviews(_ views: UIView ...) {
 		views.forEach { addSubview($0) }
@@ -41,21 +47,25 @@ extension UIView {
 		topConstant: CGFloat = 0,
 		bottomConstant: CGFloat = 0,
 		leadingConstant: CGFloat = 0,
-		trailingConstant: CGFloat = 0
+		trailingConstant: CGFloat = 0,
+		pinToSafeArea: Bool = false
 	) {
 		view.translatesAutoresizingMaskIntoConstraints = false
+		guard pinToSafeArea else {
+			NSLayoutConstraint.activate([
+				view.topAnchor.constraint(equalTo: topAnchor, constant: topConstant),
+				view.bottomAnchor.constraint(equalTo: bottomAnchor, constant: bottomConstant),
+				view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
+				view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: trailingConstant)
+			])
+			return
+		}
 		NSLayoutConstraint.activate([
-			view.topAnchor.constraint(equalTo: topAnchor, constant: topConstant),
-			view.bottomAnchor.constraint(equalTo: bottomAnchor, constant: bottomConstant),
-			view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
-			view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: trailingConstant)
+			view.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: topConstant),
+			view.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: bottomConstant),
+			view.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: leadingConstant),
+			view.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: trailingConstant)
 		])
-	}
-}
-
-extension UIStackView {
-	func addArrangedSubviews(_ views: UIView ...) {
-		views.forEach { addArrangedSubview($0) }
 	}
 }
 

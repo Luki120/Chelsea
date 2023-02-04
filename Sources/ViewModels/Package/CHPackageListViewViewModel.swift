@@ -6,6 +6,7 @@ protocol CHPackageListViewViewModelDelegate: AnyObject {
 	func didSelect(package: Package)
 }
 
+/// View model class for CHPackageListView
 final class CHPackageListViewViewModel: NSObject {
 
 	private var cellViewModels = [CHPackageCollectionViewCellViewModel]()
@@ -32,6 +33,10 @@ final class CHPackageListViewViewModel: NSObject {
 
 	// ! Public
 
+	/// Function to retrieve packages from the API call
+	/// - Parameters:
+	///		- fromQuery: an optional string to represent the given query,
+	///		defaulting to nil if none was provided
 	func fetchPackages(fromQuery query: String? = nil) {
  		isFromQuery = query == nil || query == "" ? false : true
 
@@ -50,6 +55,8 @@ final class CHPackageListViewViewModel: NSObject {
 		}
 	}
 
+	/// Function to remove the view models from the collection view
+	/// so that the data source can be correctly refreshed if needed
 	func wipeViewModels() { cellViewModels.removeAll() }
 
 }

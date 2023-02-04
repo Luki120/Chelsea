@@ -1,7 +1,7 @@
 import SafariServices
 import UIKit
 
-
+/// Home coordinator, which will take care of any navigation events related to CHHomeVC
 final class HomeCoordinator: Coordinator {
 
 	enum Event {

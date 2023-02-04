@@ -1,6 +1,6 @@
 import Foundation
 
-
+/// Singleton service to make API calls
 final class CHService {
 
 	static let sharedInstance = CHService()
@@ -10,6 +10,11 @@ final class CHService {
 		static let baseURL = "https://api.ios-repo-updates.com/1.0/search/?s="
 	}
 
+	/// Function that'll handle the API call
+	/// - Parameters:
+	///		- withURLString: the API url string
+	///		- expecting: the given type that conforms to Codable from which we will decode the JSON data
+	///		- completion: completion closure that gives us either data or an error
 	func fetchPackages<T: Codable>(
 		withURLString urlString: String,
 		expecting type: T.Type,
@@ -19,7 +24,7 @@ final class CHService {
 
 		let task = URLSession.shared.dataTask(with: url) { data, _, error in
 			guard let data = data, error == nil else {
-				completion(.failure(error!))
+				completion(.failure(error ?? URLError(.badServerResponse)))
 				return
 			}
 

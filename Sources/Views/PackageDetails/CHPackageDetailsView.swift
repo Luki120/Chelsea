@@ -6,6 +6,7 @@ protocol CHPackageDetailsViewDelegate: AnyObject {
 	func chPackageDetailsViewDidSelectViewDepictionCell()
 }
 
+/// Class to represent the package details view
 final class CHPackageDetailsView: UIView {
 
 	let viewModel: CHPackageDetailsViewViewModel
@@ -34,25 +35,18 @@ final class CHPackageDetailsView: UIView {
 		fatalError("L")	
 	}
 
+	/// Designated initializer
+	/// - Parameters:
+	/// 	- viewModel: the view's view model
 	init(viewModel: CHPackageDetailsViewViewModel) {
 		self.viewModel = viewModel
 		super.init(frame: .zero)
 		viewModel.delegate = self
-		setupUI()
+		viewModel.setupListCollectionView(listCollectionView)
 	}
 
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		layoutUI()
-	}
-
-	// ! Private
-
-	private func setupUI() {
-		viewModel.setupListCollectionView(listCollectionView)
-	}
-
-	private func layoutUI() {
 		pinViewToAllEdges(listCollectionView)
 	}
 

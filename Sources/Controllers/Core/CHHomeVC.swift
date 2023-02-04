@@ -1,6 +1,6 @@
 import UIKit
 
-
+/// Controller that'll show the main packages list
 final class CHHomeVC: UIViewController {
 
 	private let chPackageListView = CHPackageListView()
@@ -13,7 +13,7 @@ final class CHHomeVC: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		view.backgroundColor = .systemBackground
+		view.backgroundColor = .systemGroupedBackground
 		setupSearchController()
 		chPackageListView.delegate = self
 
@@ -30,6 +30,7 @@ final class CHHomeVC: UIViewController {
 
 	private func setupSearchController() {
 		let searchController = UISearchController()
+		searchController.searchBar.placeholder = "Search for tweaks, themes, tools"
 		searchController.searchBar.returnKeyType = .default
 		searchController.searchResultsUpdater = chPackageListView
 		searchController.obscuresBackgroundDuringPresentation = false

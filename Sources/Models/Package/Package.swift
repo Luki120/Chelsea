@@ -1,6 +1,6 @@
 import Foundation
 
-
+/// API model struct
 struct APIResponse: Codable {
 	let success: Bool
 	let packages: [Package]

@@ -1,6 +1,6 @@
 import SwiftUI
 
-
+/// Struct to represent the GitHub cell view
 struct CHSettingsGitHubCellView: View {
 
 	@ObservedObject private(set) var viewModel: CHSettingsGitHubCellViewViewModel

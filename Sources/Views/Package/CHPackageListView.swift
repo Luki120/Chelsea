@@ -6,6 +6,7 @@ protocol CHPackageListViewDelegate: AnyObject {
 	func chPackageListViewDidSelect(package: Package)
 }
 
+/// Class to represent the package list view
 final class CHPackageListView: UIView {
 
 	private let packageListViewModel = CHPackageListViewViewModel()
@@ -58,7 +59,7 @@ final class CHPackageListView: UIView {
 	}
 
 	private func setupUI() {
-		backgroundColor = .systemBackground
+		backgroundColor = .systemGroupedBackground
 		spinnerView.startAnimating()
 	}
 

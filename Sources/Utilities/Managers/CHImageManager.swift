@@ -1,6 +1,6 @@
 import UIKit
 
-
+/// Singleton manager to handle the image fetching logic
 final class CHImageManager {
 
 	static let sharedInstance = CHImageManager()
@@ -8,6 +8,11 @@ final class CHImageManager {
 
 	private let imageCache = NSCache<NSString, UIImage>()
 
+	/// Function that'll handle the image fetching data task
+	/// - Parameters:
+	///		- urlString: the image's url string
+	///		- completion: completion closure that gives either a UIImage & a boolean to check
+	///		if the image is coming from the cache or the network or an error
 	func fetchImage(_ urlString: String, completion: @escaping (Result<(image: UIImage, isFromNetwork: Bool), Error>) -> ()) {
 		if let cachedImage = imageCache.object(forKey: urlString as NSString) {
 			completion(.success((cachedImage, false)))

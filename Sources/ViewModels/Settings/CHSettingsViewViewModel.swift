@@ -7,6 +7,7 @@ protocol CHSettingsViewViewModelDelegate: AnyObject {
 	func didTapSourceCodeButton()
 }
 
+/// View model class for CHSettingsView
 final class CHSettingsViewViewModel {
 
 	private var lukiIcon = "https://avatars.githubusercontent.com/u/74214115?v=4"
@@ -18,6 +19,7 @@ final class CHSettingsViewViewModel {
 
 	weak var delegate: CHSettingsViewViewModelDelegate?
 
+	/// Designated initializer
 	init() {
 		setupModels()
 	}

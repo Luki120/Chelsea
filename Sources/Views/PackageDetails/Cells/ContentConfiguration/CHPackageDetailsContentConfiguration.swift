@@ -1,6 +1,6 @@
 import UIKit
 
-
+/// Struct to represent the content configuration for the package details cell
 struct CHPackageDetailsContentConfiguration: UIContentConfiguration, Hashable {
 
 	var mainText: String?

@@ -1,6 +1,6 @@
 import SwiftUI
 
-
+/// Struct to represent the main settings view
 struct CHSettingsView: View {
 
 	let viewModel: CHSettingsViewViewModel

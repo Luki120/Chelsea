@@ -7,6 +7,7 @@ protocol CHFloatingTabViewDelegate: AnyObject {
 	func didSelect(index: Int)
 }
 
+/// Custom floating tab bar view class
 final class CHFloatingTabView: UIView {
 
 	private lazy var buttonsStackView: UIStackView = {
@@ -33,6 +34,9 @@ final class CHFloatingTabView: UIView {
 		super.init(coder: coder)
 	}
 
+	/// Designated initializer
+	/// - Parameters:
+	/// 	- withItems: An array of strings to represent each tab bar item
 	init(withItems items: [String]) {
 		super.init(frame: .zero)
 		setupButtons(withItems: items)

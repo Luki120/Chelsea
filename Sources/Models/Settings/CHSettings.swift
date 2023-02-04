@@ -1,6 +1,6 @@
 import Foundation
 
-
+/// Enum to represent each developer for the GitHub cell
 enum CHSettingsDeveloper: String {
 	case luki = "Luki120"
 	case zemyoro = "Zemyoro"
@@ -19,6 +19,7 @@ enum CHSettingsDeveloper: String {
 	}
 }
 
+/// Enum to represent each app for the app cell
 enum CHSettingsApp: String {
 	case tweakIndex = "TweakIndex"
 	case azure = "Azure"

@@ -1,6 +1,6 @@
 import UIKit
 
-
+/// Class to represent the header view for the package details view
 final class CHPackageDetailsHeaderCollectionReusableView : UICollectionReusableView {
 
 	private lazy var headerImageView: UIImageView = {
@@ -49,6 +49,9 @@ extension CHPackageDetailsHeaderCollectionReusableView {
 
 	// ! Public
 
+	/// Function to configure the header view with its respective view model
+	/// - Parameters:
+	/// 	- with: The header view's view model
 	func configure(with viewModel: CHPackageDetailsHeaderCollectionReusableViewViewModel) {
 		viewModel.fetchHeaderImage { [weak self] result in
 			switch result {
