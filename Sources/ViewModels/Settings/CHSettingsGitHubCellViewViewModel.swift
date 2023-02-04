@@ -16,7 +16,7 @@ final class CHSettingsGitHubCellViewViewModel: Identifiable, ObservableObject {
 	/// Designated initializer
 	/// - Parameters:
 	/// 	- developer: A CHSettingsDeveloper object to represent the developer
-	/// 	- imageURLString: An optional string to the represent the image's url string
+	/// 	- imageURLString: An optional string to represent the image's url string
 	/// 	- onTap: An escaping closure that takes a CHSettingsDeveloper object as argument & returns void
 	init(developer: CHSettingsDeveloper, imageURLString: String?, onTap: @escaping (CHSettingsDeveloper) -> ()) {
 		self.developer = developer

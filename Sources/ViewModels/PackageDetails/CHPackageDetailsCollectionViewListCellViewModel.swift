@@ -13,8 +13,8 @@ struct CHPackageDetailsCollectionViewListCellViewModel: Hashable {
 
 	/// Designated initializer
 	/// - Parameters:
-	/// 	- mainText: A string to the represent the cell's main text
-	/// 	- secondaryText: An optional string to the represent the cell's secondary text,
+	/// 	- mainText: A string to represent the cell's main text
+	/// 	- secondaryText: An optional string to represent the cell's secondary text,
 	///		defaulting to nil if none was provided
 	/// 	- textColor: An optional UIColor to represent the cell's main text color,
 	///		defaulting to .label if none was specified

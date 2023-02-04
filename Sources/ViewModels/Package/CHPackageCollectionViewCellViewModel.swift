@@ -11,11 +11,11 @@ final class CHPackageCollectionViewCellViewModel: Hashable {
 
 	/// Designated initializer
 	/// - Parameters:
-	/// 	- packageName: A string to the represent the package's name
-	/// 	- packageDescription: A string to the represent the package's description
-	/// 	- packageIconURL: An optional string to the represent the package's icon url
-	/// 	- packageAuthor: A string to the represent the package's author
-	/// 	- packageLatestVersion: A string to the represent the package's latest version
+	/// 	- packageName: A string to represent the package's name
+	/// 	- packageDescription: A string to represent the package's description
+	/// 	- packageIconURL: An optional string to represent the package's icon url
+	/// 	- packageAuthor: A string to represent the package's author
+	/// 	- packageLatestVersion: A string to represent the package's latest version
 	init(
 		packageName: String,
 		packageDescription: String,

@@ -7,7 +7,7 @@ struct CHPackageDetailsHeaderCollectionReusableViewViewModel {
 
 	/// Designated initializer
 	/// - Parameters:
-	/// 	- imageURLString: An optional string to the represent the image's url string
+	/// 	- imageURLString: An optional string to represent the image's url string
 	init(imageURLString: String?) {
 		self.imageURLString = imageURLString
 	}
