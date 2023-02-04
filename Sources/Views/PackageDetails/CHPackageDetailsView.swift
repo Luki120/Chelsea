@@ -22,7 +22,6 @@ final class CHPackageDetailsView: UIView {
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
 		collectionView.backgroundColor = .systemBackground
 		collectionView.delegate = viewModel
-		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		addSubview(collectionView)
 		return collectionView
 	}()

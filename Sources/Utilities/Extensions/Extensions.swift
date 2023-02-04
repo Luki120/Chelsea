@@ -37,7 +37,6 @@ extension UIView {
 	func createSpinnerView(withStyle style: UIActivityIndicatorView.Style, childOf view: UIView) -> UIActivityIndicatorView {
 		let spinnerView = UIActivityIndicatorView(style: style)
 		spinnerView.hidesWhenStopped = true
-		spinnerView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(spinnerView)
 		return spinnerView
 	}
@@ -65,6 +64,30 @@ extension UIView {
 			view.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: bottomConstant),
 			view.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: leadingConstant),
 			view.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: trailingConstant)
+		])
+	}
+
+	func centerViewOnBothAxes(_ view: UIView) {
+		view.translatesAutoresizingMaskIntoConstraints = false
+		NSLayoutConstraint.activate([
+			view.centerXAnchor.constraint(equalTo: centerXAnchor),
+			view.centerYAnchor.constraint(equalTo: centerYAnchor)
+		])
+	}
+
+	func setupHorizontalConstraints(forView view: UIView, leadingConstant: CGFloat, trailingConstant: CGFloat) {
+		view.translatesAutoresizingMaskIntoConstraints = false
+		NSLayoutConstraint.activate([
+			view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
+			view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: trailingConstant)
+		])
+	}
+
+	func setupSizeConstraints(forView view: UIView, width: CGFloat, height: CGFloat) {
+		view.translatesAutoresizingMaskIntoConstraints = false
+		NSLayoutConstraint.activate([
+			view.widthAnchor.constraint(equalToConstant: width),
+			view.heightAnchor.constraint(equalToConstant: height)
 		])
 	}
 }

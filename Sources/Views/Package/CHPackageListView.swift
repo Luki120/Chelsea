@@ -66,10 +66,8 @@ final class CHPackageListView: UIView {
 	private func layoutUI() {
 		pinViewToAllEdges(packagesCollectionView, leadingConstant: 20, trailingConstant: -20)
 
-		spinnerView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-		spinnerView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-		spinnerView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-		spinnerView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+		centerViewOnBothAxes(spinnerView)
+		setupSizeConstraints(forView: spinnerView, width: 100, height: 100)
 	}
 
 	private func setupViewModels() {

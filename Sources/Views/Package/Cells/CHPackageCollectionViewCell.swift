@@ -11,7 +11,6 @@ final class CHPackageCollectionViewCell: UICollectionViewCell {
 		let imageView = UIImageView()
 		imageView.contentMode = .scaleToFill
 		imageView.clipsToBounds = true
-		imageView.translatesAutoresizingMaskIntoConstraints = false
 		imageView.layer.cornerCurve = .continuous
 		imageView.layer.cornerRadius = 10
 		contentView.addSubview(imageView)
@@ -76,20 +75,16 @@ final class CHPackageCollectionViewCell: UICollectionViewCell {
 	}
 
 	private func layoutUI() {
+		setupSizeConstraints(forView: packageImageView, width: 50, height: 50)
 		packageImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
 		packageImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
-		packageImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-		packageImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
 		packageInfoStackView.centerYAnchor.constraint(equalTo: packageImageView.centerYAnchor).isActive = true		
 		packageInfoStackView.leadingAnchor.constraint(equalTo: packageImageView.trailingAnchor, constant: 10).isActive = true
 		packageInfoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
 
-		spinnerView.centerXAnchor.constraint(equalTo: packageImageView.centerXAnchor).isActive = true
-		spinnerView.centerYAnchor.constraint(equalTo: packageImageView.centerYAnchor).isActive = true
-		spinnerView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-		spinnerView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-
+		packageImageView.centerViewOnBothAxes(spinnerView)
+		setupSizeConstraints(forView: spinnerView, width: 100, height: 100)
 	}
 
 	// ! Reusable
