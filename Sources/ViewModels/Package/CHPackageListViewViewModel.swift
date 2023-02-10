@@ -84,9 +84,8 @@ extension CHPackageListViewViewModel: UICollectionViewDataSource, UICollectionVi
 	}
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		collectionView.deselectItem(at: indexPath, animated: true)		
-		let package = packages[indexPath.row]
-		delegate?.didSelect(package: package)
+		collectionView.deselectItem(at: indexPath, animated: true)
+		delegate?.didSelect(package: packages[indexPath.row])
 	}
 
 }
