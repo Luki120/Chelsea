@@ -9,7 +9,7 @@ struct CHSettingsView: View {
 		List {
 			Section(header: Text("Developers")) {
 				HStack {
-					ForEach(Array(viewModel.ghCellViewModels.enumerated()), id: \.1.id) { index, viewModel in
+					ForEach(viewModel.ghCellViewModels, id: \.id) { index, viewModel in
 						CHSettingsGitHubCellView(viewModel: viewModel)
 							.padding(.horizontal, 2.5)
 							.onTapGesture {
@@ -48,4 +48,16 @@ struct CHSettingsView: View {
 		.listStyle(.insetGrouped)
 	}
 
+}
+
+// credits ⇝ https://gist.github.com/leptos-null/e521cbd4a8246ea824d823fc398ba255
+private extension ForEach {
+	init<Base: Sequence>(_ base: Base, @ViewBuilder content: @escaping (Data.Element) -> Content) where Data == Array<EnumeratedSequence<Base>.Element>, ID == Base.Element, Content: View, ID: Identifiable {
+		self.init(Array(base.enumerated()), id: \.element, content: content)
+	}
+
+	init<Base: Sequence>(_ base: Base, id: KeyPath<Base.Element, ID>, @ViewBuilder content: @escaping (Data.Element) -> Content) where Data == Array<EnumeratedSequence<Base>.Element>, Content: View {
+		let basePath: KeyPath<EnumeratedSequence<Base>.Element, Base.Element> = \.element
+		self.init(Array(base.enumerated()), id: basePath.appending(path: id), content: content)
+	}
 }
