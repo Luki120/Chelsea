@@ -29,8 +29,13 @@ final class CHPackageDetailsViewViewModel: NSObject {
 		case footer
 	}
 
-	private var dataSource: UICollectionViewDiffableDataSource<CHPackageDetailsViewViewModel.Sections, CHPackageDetailsCollectionViewListCellViewModel>!
-	private var snapshot: NSDiffableDataSourceSnapshot<CHPackageDetailsViewViewModel.Sections, CHPackageDetailsCollectionViewListCellViewModel>!
+	private typealias CellRegistration = UICollectionView.CellRegistration<CHPackageDetailsCollectionViewListCell, CHPackageDetailsCollectionViewListCellViewModel>
+	private typealias HeaderRegistration = UICollectionView.SupplementaryRegistration<CHPackageDetailsHeaderCollectionReusableView>
+	private typealias DataSource = UICollectionViewDiffableDataSource<CHPackageDetailsViewViewModel.Sections, CHPackageDetailsCollectionViewListCellViewModel>
+	private typealias Snapshot = NSDiffableDataSourceSnapshot<CHPackageDetailsViewViewModel.Sections, CHPackageDetailsCollectionViewListCellViewModel>
+
+	private var dataSource: DataSource!
+	private var snapshot: Snapshot!
 
 	private var cellDetailViewModels = [CHPackageDetailsCollectionViewListCellViewModel]()
 	private var detailHeaderViewModel: CHPackageDetailsHeaderCollectionReusableViewViewModel!
@@ -78,13 +83,11 @@ extension CHPackageDetailsViewViewModel {
 	/// - Parameters:
 	///		- listCollectionView: the collection view
 	func setupListCollectionView(_ listCollectionView: UICollectionView) {
-		let cellRegistration = UICollectionView.CellRegistration
-		<CHPackageDetailsCollectionViewListCell, CHPackageDetailsCollectionViewListCellViewModel> { cell, _, viewModel in
+		let cellRegistration = CellRegistration { cell, _, viewModel in
 			cell.viewModel = viewModel
 		}
 
-		dataSource = UICollectionViewDiffableDataSource<CHPackageDetailsViewViewModel.Sections, CHPackageDetailsCollectionViewListCellViewModel>(collectionView: listCollectionView) {
-			(collectionView: UICollectionView, indexPath: IndexPath, identifier: CHPackageDetailsCollectionViewListCellViewModel) -> UICollectionViewCell? in
+		dataSource = DataSource(collectionView: listCollectionView) { collectionView, indexPath, identifier -> UICollectionViewCell? in
 			let cell = collectionView.dequeueConfiguredReusableCell(
 				using: cellRegistration,
 				for: indexPath,
@@ -95,7 +98,7 @@ extension CHPackageDetailsViewViewModel {
 
 		setupHeader()
 
-		snapshot = NSDiffableDataSourceSnapshot<CHPackageDetailsViewViewModel.Sections, CHPackageDetailsCollectionViewListCellViewModel>()
+		snapshot = Snapshot()
 		snapshot.appendSections([.main, .footer])
 		snapshot.appendItems(cellDetailViewModels, toSection: .main)
 		snapshot.appendItems(footerViewModel, toSection: .footer)
@@ -104,8 +107,7 @@ extension CHPackageDetailsViewViewModel {
 	}
 
 	private func setupHeader() {
-		let headerRegistration = UICollectionView.SupplementaryRegistration
-		<CHPackageDetailsHeaderCollectionReusableView>(elementKind: UICollectionView.elementKindSectionHeader) { detailHeaderView, _, _ in
+		let headerRegistration = HeaderRegistration(elementKind: UICollectionView.elementKindSectionHeader) { detailHeaderView, _, _ in
 			detailHeaderView.configure(with: self.detailHeaderViewModel)
 		}
 
