@@ -22,7 +22,6 @@ final class CHPackageListView: UIView {
 		collectionView.alpha = 0
 		collectionView.backgroundColor = .systemGroupedBackground
 		collectionView.showsVerticalScrollIndicator = false
-		collectionView.register(CHPackageCollectionViewCell.self, forCellWithReuseIdentifier: CHPackageCollectionViewCell.identifier)
 		addSubview(collectionView)
 		return collectionView
 	}()
@@ -41,7 +40,8 @@ final class CHPackageListView: UIView {
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		setupCollectionView()
+		packagesCollectionView.delegate = packageListViewModel
+		packageListViewModel.setupCollectionView(packagesCollectionView)
 		setupUI()
 		setupViewModels()
 	}
@@ -52,11 +52,6 @@ final class CHPackageListView: UIView {
 	}
 
 	// ! Private
-
-	private func setupCollectionView() {
-		packagesCollectionView.dataSource = packageListViewModel
-		packagesCollectionView.delegate = packageListViewModel
-	}
 
 	private func setupUI() {
 		backgroundColor = .systemGroupedBackground
@@ -79,17 +74,8 @@ final class CHPackageListView: UIView {
 			.sink { [weak self] in
 				self?.packageListViewModel.wipeViewModels()
 				self?.packageListViewModel.fetchPackages(fromQuery: $0)
-				self?.setupDataSourceTransition()
 			}
 			.store(in: &subscriptions)
-	}
-
-	private func setupDataSourceTransition() {
-		let transition = CATransition()
-		transition.type = .fade
-		transition.duration = 0.6
-		transition.timingFunction = .init(name: .easeInEaseOut)
-		packagesCollectionView.layer.add(transition, forKey: nil)
 	}
 
 }
@@ -101,14 +87,14 @@ extension CHPackageListView: CHPackageListViewViewModelDelegate {
 	func didFetchPackages() {
 		guard packageListViewModel.isFromQuery else {
 			spinnerView.stopAnimating()
-			packagesCollectionView.reloadData()
+			packageListViewModel.applySnapshot()
 
 			UIView.animate(withDuration: 0.5, delay: 0, options: .transitionCrossDissolve) {
 				self.packagesCollectionView.alpha = 1
 			}
 			return
 		}
-		packagesCollectionView.reloadData()
+		packageListViewModel.applySnapshot()
 	}
 
 	func didSelect(package: Package) {

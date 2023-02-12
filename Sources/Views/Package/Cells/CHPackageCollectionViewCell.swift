@@ -3,8 +3,6 @@ import UIKit
 /// Class to represent the package cell
 final class CHPackageCollectionViewCell: UICollectionViewCell {
 
-	static let identifier = "CHPackageCollectionViewCell"
-
 	private weak var activeViewModel: CHPackageCollectionViewCellViewModel?
 
 	private lazy var packageImageView: UIImageView = {
