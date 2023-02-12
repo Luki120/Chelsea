@@ -31,6 +31,19 @@ final class CHPackageListViewViewModel: NSObject {
 
 	weak var delegate: CHPackageListViewViewModelDelegate?
 
+	// ! UICollectionViewDiffableDataSource
+
+	@frozen private enum Sections: Hashable {
+		case main
+	}
+
+	private typealias CellRegistration = UICollectionView.CellRegistration<CHPackageCollectionViewCell, CHPackageCollectionViewCellViewModel>
+	private typealias DataSource = UICollectionViewDiffableDataSource<CHPackageListViewViewModel.Sections, CHPackageCollectionViewCellViewModel>
+	private typealias Snapshot = NSDiffableDataSourceSnapshot<CHPackageListViewViewModel.Sections, CHPackageCollectionViewCellViewModel>
+
+	private var dataSource: DataSource!
+	private var snapshot: Snapshot!
+
 	// ! Public
 
 	/// Function to retrieve packages from the API call
@@ -38,7 +51,7 @@ final class CHPackageListViewViewModel: NSObject {
 	///		- fromQuery: an optional string to represent the given query,
 	///		defaulting to nil if none was provided
 	func fetchPackages(fromQuery query: String? = nil) {
- 		isFromQuery = query == nil || query == "" ? false : true
+		isFromQuery = query == nil || query == "" ? false : true
 
 		CHService.sharedInstance.fetchPackages(
 			withURLString: "\(CHService.Constants.baseURL)\(query ?? "")",
@@ -63,21 +76,36 @@ final class CHPackageListViewViewModel: NSObject {
 
 // ! CollectionView
 
-extension CHPackageListViewViewModel: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return cellViewModels.count
+extension CHPackageListViewViewModel {
+
+	func setupCollectionView(_ collectionView: UICollectionView) {
+		let cellRegistration = CellRegistration { cell, _, viewModel in
+			cell.configure(with: viewModel)
+		}
+
+		dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, identifier -> UICollectionViewCell? in
+			let cell = collectionView.dequeueConfiguredReusableCell(
+				using: cellRegistration,
+				for: indexPath,
+				item: identifier
+			)
+			return cell
+		}
+
+		applySnapshot()
 	}
 
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		guard let cell = collectionView.dequeueReusableCell(
-			withReuseIdentifier: CHPackageCollectionViewCell.identifier,
-			for: indexPath
-		) as? CHPackageCollectionViewCell else {
-			return UICollectionViewCell()
-		}
-		cell.configure(with: cellViewModels[indexPath.row])
-		return cell
+	func applySnapshot() {
+		snapshot = Snapshot()
+		snapshot.appendSections([.main])
+		snapshot.appendItems(cellViewModels)
+
+		dataSource.apply(snapshot, animatingDifferences: true)
 	}
+
+}
+
+extension CHPackageListViewViewModel: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		return CGSize(width: collectionView.bounds.size.width, height: 85)
