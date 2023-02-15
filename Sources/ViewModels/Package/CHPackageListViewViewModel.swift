@@ -38,8 +38,8 @@ final class CHPackageListViewViewModel: NSObject {
 	}
 
 	private typealias CellRegistration = UICollectionView.CellRegistration<CHPackageCollectionViewCell, CHPackageCollectionViewCellViewModel>
-	private typealias DataSource = UICollectionViewDiffableDataSource<CHPackageListViewViewModel.Sections, CHPackageCollectionViewCellViewModel>
-	private typealias Snapshot = NSDiffableDataSourceSnapshot<CHPackageListViewViewModel.Sections, CHPackageCollectionViewCellViewModel>
+	private typealias DataSource = UICollectionViewDiffableDataSource<Sections, CHPackageCollectionViewCellViewModel>
+	private typealias Snapshot = NSDiffableDataSourceSnapshot<Sections, CHPackageCollectionViewCellViewModel>
 
 	private var dataSource: DataSource!
 	private var snapshot: Snapshot!
@@ -78,6 +78,9 @@ final class CHPackageListViewViewModel: NSObject {
 
 extension CHPackageListViewViewModel {
 
+	/// Function to setup the collection view's data source
+	/// - Parameters:
+	///		- collectionView: the collection view
 	func setupCollectionView(_ collectionView: UICollectionView) {
 		let cellRegistration = CellRegistration { cell, _, viewModel in
 			cell.configure(with: viewModel)

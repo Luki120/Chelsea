@@ -31,8 +31,8 @@ final class CHPackageDetailsViewViewModel: NSObject {
 
 	private typealias CellRegistration = UICollectionView.CellRegistration<CHPackageDetailsCollectionViewListCell, CHPackageDetailsCollectionViewListCellViewModel>
 	private typealias HeaderRegistration = UICollectionView.SupplementaryRegistration<CHPackageDetailsHeaderCollectionReusableView>
-	private typealias DataSource = UICollectionViewDiffableDataSource<CHPackageDetailsViewViewModel.Sections, CHPackageDetailsCollectionViewListCellViewModel>
-	private typealias Snapshot = NSDiffableDataSourceSnapshot<CHPackageDetailsViewViewModel.Sections, CHPackageDetailsCollectionViewListCellViewModel>
+	private typealias DataSource = UICollectionViewDiffableDataSource<Sections, CHPackageDetailsCollectionViewListCellViewModel>
+	private typealias Snapshot = NSDiffableDataSourceSnapshot<Sections, CHPackageDetailsCollectionViewListCellViewModel>
 
 	private var dataSource: DataSource!
 	private var snapshot: Snapshot!
