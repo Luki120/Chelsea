@@ -1,4 +1,3 @@
-import Combine
 import UIKit
 
 
@@ -10,9 +9,6 @@ protocol CHPackageListViewDelegate: AnyObject {
 final class CHPackageListView: UIView {
 
 	private let packageListViewModel = CHPackageListViewViewModel()
-	private let searchQueryViewModel = CHPackageSearchQueryViewModel()
-
-	private var subscriptions = Set<AnyCancellable>()
 
 	private lazy var packagesCollectionView: UICollectionView = {
 		let flowLayout = UICollectionViewFlowLayout()
@@ -43,7 +39,7 @@ final class CHPackageListView: UIView {
 		packagesCollectionView.delegate = packageListViewModel
 		packageListViewModel.setupCollectionView(packagesCollectionView)
 		setupUI()
-		setupViewModels()
+		setupViewModel()
 	}
 
 	override func layoutSubviews() {
@@ -65,17 +61,10 @@ final class CHPackageListView: UIView {
 		setupSizeConstraints(forView: spinnerView, width: 100, height: 100)
 	}
 
-	private func setupViewModels() {
+	private func setupViewModel() {
 		packageListViewModel.delegate = self
 		packageListViewModel.fetchPackages()
-
-		searchQueryViewModel.searchQuerySubject
-			.debounce(for: .seconds(0.8), scheduler: DispatchQueue.main)
-			.sink { [weak self] in
-				self?.packageListViewModel.wipeViewModels()
-				self?.packageListViewModel.fetchPackages(fromQuery: $0)
-			}
-			.store(in: &subscriptions)
+		packageListViewModel.setupSearchQuerySubject()
 	}
 
 }
@@ -110,7 +99,7 @@ extension CHPackageListView: UISearchResultsUpdating {
 	func updateSearchResults(for searchController: UISearchController) {
 		let textToSearch = searchController.searchBar.text!.trimmingCharacters(in: .whitespacesAndNewlines)
 		guard !textToSearch.isEmpty else { return }
-		searchQueryViewModel.searchQuerySubject.send(textToSearch)
+		packageListViewModel.searchQuerySubject.send(textToSearch)
 	}
 
 }

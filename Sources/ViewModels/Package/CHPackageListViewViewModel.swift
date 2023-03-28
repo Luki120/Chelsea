@@ -1,3 +1,4 @@
+import Combine
 import UIKit
 
 
@@ -8,6 +9,10 @@ protocol CHPackageListViewViewModelDelegate: AnyObject {
 
 /// View model class for CHPackageListView
 final class CHPackageListViewViewModel: NSObject {
+
+	let searchQuerySubject = PassthroughSubject<String, Never>()
+
+	private var subscriptions = Set<AnyCancellable>()
 
 	private var cellViewModels = [CHPackageCollectionViewCellViewModel]()
 	private var packages = [Package]() {
@@ -44,6 +49,8 @@ final class CHPackageListViewViewModel: NSObject {
 	private var dataSource: DataSource!
 	private var snapshot: Snapshot!
 
+	private func wipeViewModels() { cellViewModels.removeAll() }
+
 	// ! Public
 
 	/// Function to retrieve packages from the API call
@@ -68,9 +75,16 @@ final class CHPackageListViewViewModel: NSObject {
 		}
 	}
 
-	/// Function to remove the view models from the collection view
-	/// so that the data source can be correctly refreshed if needed
-	func wipeViewModels() { cellViewModels.removeAll() }
+	/// Function to setup the search query's passthrough subject to debounce API calls
+	func setupSearchQuerySubject() {
+		searchQuerySubject
+			.debounce(for: .seconds(0.8), scheduler: DispatchQueue.main)
+			.sink { [weak self] in
+				self?.wipeViewModels()
+				self?.fetchPackages(fromQuery: $0)
+			}
+			.store(in: &subscriptions)
+	}
 
 }
 
