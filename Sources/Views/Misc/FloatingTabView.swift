@@ -3,12 +3,12 @@
 import UIKit
 
 
-protocol CHFloatingTabViewDelegate: AnyObject {
+protocol FloatingTabViewDelegate: AnyObject {
 	func didSelect(index: Int)
 }
 
 /// Custom floating tab bar view class
-final class CHFloatingTabView: UIView {
+final class FloatingTabView: UIView {
 
 	private lazy var buttonsStackView: UIStackView = {
 		let stackView = UIStackView(arrangedSubviews: tabBarButtons)
@@ -26,7 +26,7 @@ final class CHFloatingTabView: UIView {
 	private var tabBarButton: UIButton!
 	private var tabBarButtons = [UIButton]()
 
-	weak var delegate: CHFloatingTabViewDelegate?
+	weak var delegate: FloatingTabViewDelegate?
 
 	// ! Lifecycle
 
@@ -115,7 +115,7 @@ final class CHFloatingTabView: UIView {
 
 }
 
-extension CHFloatingTabView {
+extension FloatingTabView {
 
 	// ! Public
 

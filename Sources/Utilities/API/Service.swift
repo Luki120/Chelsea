@@ -1,9 +1,9 @@
 import Foundation
 
 /// Singleton service to make API calls
-final class CHService {
+final class Service {
 
-	static let sharedInstance = CHService()
+	static let sharedInstance = Service()
 	private init() {}
 
 	struct Constants {

@@ -1,10 +1,10 @@
 import UIKit
 
 /// Controller that'll show the package details view
-final class CHPackageDetailsVC: UIViewController {
+final class PackageDetailsVC: UIViewController {
 
-	let viewModel: CHPackageDetailsViewViewModel
-	let chPackageDetailsView: CHPackageDetailsView
+	let viewModel: PackageDetailsViewViewModel
+	let packageDetailsView: PackageDetailsView
 
 	var coordinator: HomeCoordinator?
 
@@ -22,14 +22,14 @@ final class CHPackageDetailsVC: UIViewController {
 		fatalError("L")
 	}
 
-	init(viewModel: CHPackageDetailsViewViewModel) {
+	init(viewModel: PackageDetailsViewViewModel) {
 		self.viewModel = viewModel
-		self.chPackageDetailsView = CHPackageDetailsView(viewModel: viewModel)
+		self.packageDetailsView = PackageDetailsView(viewModel: viewModel)
 		super.init(nibName: nil, bundle: nil)
-		chPackageDetailsView.delegate = self
+		packageDetailsView.delegate = self
 	}
 
-	override func loadView() { view = chPackageDetailsView }
+	override func loadView() { view = packageDetailsView }
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -51,15 +51,15 @@ final class CHPackageDetailsVC: UIViewController {
 
 }
 
-// ! CHPackageDetailsViewDelegate
+// ! PackageDetailsViewDelegate
 
-extension CHPackageDetailsVC: CHPackageDetailsViewDelegate {
+extension PackageDetailsVC: PackageDetailsViewDelegate {
 
-	func chPackageDetailsViewDidSelectAuthorCell() {
+	func packageDetailsViewDidSelectAuthorCell() {
 		coordinator?.eventOccurred(with: .authorCellTapped)
 	}
 
-	func chPackageDetailsViewDidSelectViewDepictionCell() {
+	func packageDetailsViewDidSelectViewDepictionCell() {
 		coordinator?.eventOccurred(with: .depictionCellTapped)
 	} 
 

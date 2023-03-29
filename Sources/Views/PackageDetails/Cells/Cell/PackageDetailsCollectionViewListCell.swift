@@ -1,12 +1,12 @@
 import UIKit
 
 /// Class to represent the package details cell
-final class CHPackageDetailsCollectionViewListCell: UICollectionViewListCell {
+final class PackageDetailsCollectionViewListCell: UICollectionViewListCell {
 
-	var viewModel: CHPackageDetailsCollectionViewListCellViewModel?
+	var viewModel: PackageDetailsCollectionViewListCellViewModel?
 
 	override func updateConfiguration(using state: UICellConfigurationState) {
-		var newConfiguration = CHPackageDetailsContentConfiguration().updated(for: state)
+		var newConfiguration = PackageDetailsContentConfiguration().updated(for: state)
 		newConfiguration.mainText = viewModel?.displayMainText
 		newConfiguration.secondaryText = viewModel?.displaySecondaryText
 		newConfiguration.textColor = viewModel?.displayTextColor

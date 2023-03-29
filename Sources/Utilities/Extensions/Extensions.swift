@@ -94,7 +94,7 @@ extension UIView {
 
 extension UIViewController {
 	func shouldHideTabView(_ hide: Bool) {
-		guard let tabBarVC = tabBarController as? CHTabBarVC else { return }
+		guard let tabBarVC = tabBarController as? TabBarVC else { return }
 		tabBarVC.shouldHideFloatingTabView(hide)
 	}
 }

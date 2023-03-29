@@ -1,14 +1,14 @@
 import UIKit
 
 /// Class to represent the content view for the package details cell
-final class CHPackageDetailsContentView: UIView, UIContentView {
+final class PackageDetailsContentView: UIView, UIContentView {
 
-	private var currentConfiguration: CHPackageDetailsContentConfiguration!
+	private var currentConfiguration: PackageDetailsContentConfiguration!
 
 	var configuration: UIContentConfiguration {
 		get { currentConfiguration }
 		set {
-			guard let newConfiguration = newValue as? CHPackageDetailsContentConfiguration else { return }
+			guard let newConfiguration = newValue as? PackageDetailsContentConfiguration else { return }
 			apply(configuration: newConfiguration)
 		}
 	}
@@ -31,7 +31,7 @@ final class CHPackageDetailsContentView: UIView, UIContentView {
 		super.init(coder: coder)
 	}
 
-	init(configuration: CHPackageDetailsContentConfiguration) {
+	init(configuration: PackageDetailsContentConfiguration) {
 		super.init(frame: .zero)
 
 		setupUI()
@@ -57,7 +57,7 @@ final class CHPackageDetailsContentView: UIView, UIContentView {
 		])
 	}
 
-	private func apply(configuration: CHPackageDetailsContentConfiguration) {
+	private func apply(configuration: PackageDetailsContentConfiguration) {
 		guard currentConfiguration != configuration else { return }
 
 		currentConfiguration = configuration

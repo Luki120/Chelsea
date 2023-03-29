@@ -1,7 +1,7 @@
 import UIKit
 
 /// View model struct for CHPackageDetailsCollectionViewListCell
-struct CHPackageDetailsCollectionViewListCellViewModel: Hashable {
+struct PackageDetailsCollectionViewListCellViewModel: Hashable {
 
 	private let mainText: String
 	private let secondaryText: String?

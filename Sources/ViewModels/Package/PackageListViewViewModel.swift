@@ -2,23 +2,23 @@ import Combine
 import UIKit
 
 
-protocol CHPackageListViewViewModelDelegate: AnyObject {
+protocol PackageListViewViewModelDelegate: AnyObject {
 	func didFetchPackages()
 	func didSelect(package: Package)
 }
 
-/// View model class for CHPackageListView
-final class CHPackageListViewViewModel: NSObject {
+/// View model class for PackageListView
+final class PackageListViewViewModel: NSObject {
 
 	let searchQuerySubject = PassthroughSubject<String, Never>()
 
 	private var subscriptions = Set<AnyCancellable>()
 
-	private var cellViewModels = [CHPackageCollectionViewCellViewModel]()
+	private var cellViewModels = [PackageCollectionViewCellViewModel]()
 	private var packages = [Package]() {
 		didSet {
 			for package in packages {
-				let viewModel = CHPackageCollectionViewCellViewModel(
+				let viewModel = PackageCollectionViewCellViewModel(
 					packageName: package.name ?? package.identifier,
 					packageDescription: package.description,
 					packageIconURL: package.packageIcon ?? PackageIcon(package.section).section,
@@ -34,7 +34,7 @@ final class CHPackageListViewViewModel: NSObject {
 
 	private(set) var isFromQuery = false
 
-	weak var delegate: CHPackageListViewViewModelDelegate?
+	weak var delegate: PackageListViewViewModelDelegate?
 
 	// ! UICollectionViewDiffableDataSource
 
@@ -42,9 +42,9 @@ final class CHPackageListViewViewModel: NSObject {
 		case main
 	}
 
-	private typealias CellRegistration = UICollectionView.CellRegistration<CHPackageCollectionViewCell, CHPackageCollectionViewCellViewModel>
-	private typealias DataSource = UICollectionViewDiffableDataSource<Sections, CHPackageCollectionViewCellViewModel>
-	private typealias Snapshot = NSDiffableDataSourceSnapshot<Sections, CHPackageCollectionViewCellViewModel>
+	private typealias CellRegistration = UICollectionView.CellRegistration<PackageCollectionViewCell, PackageCollectionViewCellViewModel>
+	private typealias DataSource = UICollectionViewDiffableDataSource<Sections, PackageCollectionViewCellViewModel>
+	private typealias Snapshot = NSDiffableDataSourceSnapshot<Sections, PackageCollectionViewCellViewModel>
 
 	private var dataSource: DataSource!
 	private var snapshot: Snapshot!
@@ -60,8 +60,8 @@ final class CHPackageListViewViewModel: NSObject {
 	func fetchPackages(fromQuery query: String? = nil) {
 		isFromQuery = query == nil || query == "" ? false : true
 
-		CHService.sharedInstance.fetchPackages(
-			withURLString: "\(CHService.Constants.baseURL)\(query ?? "")",
+		Service.sharedInstance.fetchPackages(
+			withURLString: "\(Service.Constants.baseURL)\(query ?? "")",
 			expecting: APIResponse.self
 		) { result in
 			switch result {
@@ -90,7 +90,7 @@ final class CHPackageListViewViewModel: NSObject {
 
 // ! CollectionView
 
-extension CHPackageListViewViewModel {
+extension PackageListViewViewModel {
 
 	/// Function to setup the collection view's data source
 	/// - Parameters:
@@ -122,7 +122,7 @@ extension CHPackageListViewViewModel {
 
 }
 
-extension CHPackageListViewViewModel: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension PackageListViewViewModel: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		return CGSize(width: collectionView.bounds.size.width, height: 85)

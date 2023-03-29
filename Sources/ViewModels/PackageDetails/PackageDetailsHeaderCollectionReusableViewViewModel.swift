@@ -1,7 +1,7 @@
 import UIKit
 
-/// View model struct for CHPackageDetailsHeaderCollectionReusableView
-struct CHPackageDetailsHeaderCollectionReusableViewViewModel {
+/// View model struct for PackageDetailsHeaderCollectionReusableView
+struct PackageDetailsHeaderCollectionReusableViewViewModel {
 
 	private let imageURLString: String?
 
@@ -21,7 +21,7 @@ struct CHPackageDetailsHeaderCollectionReusableViewViewModel {
 			completion(.failure(URLError(.badURL)))
 			return
 		}
-		CHImageManager.sharedInstance.fetchImage(imageURLString, completion: completion)
+		ImageManager.sharedInstance.fetchImage(imageURLString, completion: completion)
 	}
 
 }

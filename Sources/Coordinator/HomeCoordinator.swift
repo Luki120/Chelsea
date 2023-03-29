@@ -1,7 +1,7 @@
 import SafariServices
 import UIKit
 
-/// Home coordinator, which will take care of any navigation events related to CHHomeVC
+/// Home coordinator, which will take care of any navigation events related to HomeVC
 final class HomeCoordinator: Coordinator {
 
 	enum Event {
@@ -12,10 +12,10 @@ final class HomeCoordinator: Coordinator {
 
 	var navigationController = UINavigationController()
 
-	private var packageDetailsVC: CHPackageDetailsVC!
+	private var packageDetailsVC: PackageDetailsVC!
 
 	init() {
-		let homeVC = CHHomeVC()
+		let homeVC = HomeVC()
 		homeVC.coordinator = self
 		homeVC.title = "Chelsea"
 
@@ -25,8 +25,8 @@ final class HomeCoordinator: Coordinator {
 	func eventOccurred(with event: Event) {
 		switch event {
 			case .packageCellTapped(let package):
-				let viewModel = CHPackageDetailsViewViewModel(package: package)
-				packageDetailsVC = CHPackageDetailsVC(viewModel: viewModel)
+				let viewModel = PackageDetailsViewViewModel(package: package)
+				packageDetailsVC = PackageDetailsVC(viewModel: viewModel)
 				packageDetailsVC.coordinator = self
 				navigationController.pushViewController(packageDetailsVC, animated: true)
 

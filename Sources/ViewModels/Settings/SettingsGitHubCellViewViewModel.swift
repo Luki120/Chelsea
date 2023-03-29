@@ -1,13 +1,13 @@
 import UIKit
 
-/// View model class for CHSettingsGitHubCellView
-final class CHSettingsGitHubCellViewViewModel: Identifiable, ObservableObject {
+/// View model class for SettingsGitHubCellView
+final class SettingsGitHubCellViewViewModel: Identifiable, ObservableObject {
 
 	private(set) var id = UUID()
 	@Published private(set) var image = UIImage()
 
-	let developer: CHSettingsDeveloper
-	let onTap: (CHSettingsDeveloper) -> ()
+	let developer: SettingsDeveloper
+	let onTap: (SettingsDeveloper) -> ()
 	private let imageURLString: String?
 
 	var devName: String { return developer.devName }
@@ -15,10 +15,10 @@ final class CHSettingsGitHubCellViewViewModel: Identifiable, ObservableObject {
 
 	/// Designated initializer
 	/// - Parameters:
-	/// 	- developer: A CHSettingsDeveloper object to represent the developer
+	/// 	- developer: A SettingsDeveloper object to represent the developer
 	/// 	- imageURLString: An optional string to represent the image's url string
-	/// 	- onTap: An escaping closure that takes a CHSettingsDeveloper object as argument & returns void
-	init(developer: CHSettingsDeveloper, imageURLString: String?, onTap: @escaping (CHSettingsDeveloper) -> ()) {
+	/// 	- onTap: An escaping closure that takes a SettingsDeveloper object as argument & returns void
+	init(developer: SettingsDeveloper, imageURLString: String?, onTap: @escaping (SettingsDeveloper) -> ()) {
 		self.developer = developer
 		self.imageURLString = imageURLString
 		self.onTap = onTap
@@ -27,7 +27,7 @@ final class CHSettingsGitHubCellViewViewModel: Identifiable, ObservableObject {
 
 	private func fetchImage() {
  		guard let imageURLString = imageURLString else { return }
- 			CHImageManager.sharedInstance.fetchImage(imageURLString) { [weak self] result in
+ 			ImageManager.sharedInstance.fetchImage(imageURLString) { [weak self] result in
 			switch result {
 				case .success((let image, _)):
 					DispatchQueue.main.async {

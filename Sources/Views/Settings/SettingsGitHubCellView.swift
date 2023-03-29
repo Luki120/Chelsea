@@ -1,9 +1,9 @@
 import SwiftUI
 
 /// Struct to represent the GitHub cell view
-struct CHSettingsGitHubCellView: View {
+struct SettingsGitHubCellView: View {
 
-	@ObservedObject private(set) var viewModel: CHSettingsGitHubCellViewViewModel
+	@ObservedObject private(set) var viewModel: SettingsGitHubCellViewViewModel
 
 	var body: some View {
 		HStack {

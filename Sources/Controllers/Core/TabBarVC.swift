@@ -1,18 +1,18 @@
 import UIKit
 
 
-protocol CHTabBarVCDelegate: AnyObject {
+protocol TabBarVCDelegate: AnyObject {
 	func didSelectTabBarItem()
 }
 
 /// Root view controller, which will show our tabs
-final class CHTabBarVC: UITabBarController {
+final class TabBarVC: UITabBarController {
 
-	private let floatingTabView = CHFloatingTabView(withItems: ["shippingbox", "gear"])
+	private let floatingTabView = FloatingTabView(withItems: ["shippingbox", "gear"])
 	private let homeCoordinator = HomeCoordinator()
 	private let settingsCoordinator = SettingsCoordinator()
 
-	weak var chDelegate: CHTabBarVCDelegate?
+	weak var chDelegate: TabBarVCDelegate?
 
 	// ! Lifecycle
 
@@ -52,7 +52,7 @@ final class CHTabBarVC: UITabBarController {
 
 // ! FloatingTabViewDelegate
 
-extension CHTabBarVC: CHFloatingTabViewDelegate {
+extension TabBarVC: FloatingTabViewDelegate {
 
 	func didSelect(index: Int) {
 		selectedIndex = index

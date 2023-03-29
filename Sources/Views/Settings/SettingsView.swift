@@ -1,16 +1,16 @@
 import SwiftUI
 
 /// Struct to represent the main settings view
-struct CHSettingsView: View {
+struct SettingsView: View {
 
-	let viewModel: CHSettingsViewViewModel
+	let viewModel: SettingsViewViewModel
 
 	var body: some View {
 		List {
 			Section(header: Text("Developers")) {
 				HStack {
 					ForEach(viewModel.ghCellViewModels, id: \.id) { index, viewModel in
-						CHSettingsGitHubCellView(viewModel: viewModel)
+						SettingsGitHubCellView(viewModel: viewModel)
 							.padding(.horizontal, 2.5)
 							.onTapGesture {
 								viewModel.onTap(viewModel.developer)

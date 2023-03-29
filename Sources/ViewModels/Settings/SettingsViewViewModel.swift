@@ -1,23 +1,23 @@
 import Foundation
 
 
-protocol CHSettingsViewViewModelDelegate: AnyObject {
-	func didTapDev(_ developer: CHSettingsDeveloper)
-	func didTapApp(_ app: CHSettingsApp)
+protocol SettingsViewViewModelDelegate: AnyObject {
+	func didTapDev(_ developer: SettingsDeveloper)
+	func didTapApp(_ app: SettingsApp)
 	func didTapSourceCodeButton()
 }
 
-/// View model class for CHSettingsView
-final class CHSettingsViewViewModel {
+/// View model class for SettingsView
+final class SettingsViewViewModel {
 
 	private var lukiIcon = "https://avatars.githubusercontent.com/u/74214115?v=4"
 	private var zemyoroIcon = "https://avatars.githubusercontent.com/u/85952603?v=4"
 
-	private(set) var ghCellViewModels = [CHSettingsGitHubCellViewViewModel]()
-	private(set) var appCellViewModels = [CHSettingsAppCellViewModel]()
-	private(set) var footerViewModel: CHSettingsFooterViewModel!
+	private(set) var ghCellViewModels = [SettingsGitHubCellViewViewModel]()
+	private(set) var appCellViewModels = [SettingsAppCellViewModel]()
+	private(set) var footerViewModel: SettingsFooterViewModel!
 
-	weak var delegate: CHSettingsViewViewModelDelegate?
+	weak var delegate: SettingsViewViewModelDelegate?
 
 	/// Designated initializer
 	init() {

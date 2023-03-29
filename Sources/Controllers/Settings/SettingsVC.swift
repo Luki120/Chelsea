@@ -2,10 +2,10 @@ import SwiftUI
 import UIKit
 
 /// Controller that'll show the settings view
-final class CHSettingsVC: UIViewController {
+final class SettingsVC: UIViewController {
 
-	private let viewModel = CHSettingsViewViewModel()
-	private var swiftUIVC: UIHostingController<CHSettingsView>!
+	private let viewModel = SettingsViewViewModel()
+	private var swiftUIVC: UIHostingController<SettingsView>!
 	var coordinator: SettingsCoordinator?
 
 	// ! Lifecycle
@@ -25,7 +25,7 @@ final class CHSettingsVC: UIViewController {
 	// ! Private
 
 	private func setupUI() {
-		swiftUIVC = UIHostingController(rootView: CHSettingsView(viewModel: viewModel))
+		swiftUIVC = UIHostingController(rootView: SettingsView(viewModel: viewModel))
 		addChild(swiftUIVC)
 		swiftUIVC.didMove(toParent: self)
 
@@ -35,15 +35,15 @@ final class CHSettingsVC: UIViewController {
 
 }
 
-// ! CHSettingsViewViewModelDelegate
+// ! SettingsViewViewModelDelegate
 
-extension CHSettingsVC: CHSettingsViewViewModelDelegate {
+extension SettingsVC: SettingsViewViewModelDelegate {
 
-	func didTapDev(_ developer: CHSettingsDeveloper) {
+	func didTapDev(_ developer: SettingsDeveloper) {
 		coordinator?.eventOccurred(with: .devCellTapped(developer: developer))
 	}
 
-	func didTapApp(_ app: CHSettingsApp) {
+	func didTapApp(_ app: SettingsApp) {
 		coordinator?.eventOccurred(with: .appCellTapped(app: app))
 	}
 

@@ -1,14 +1,14 @@
 import UIKit
 
 
-protocol CHPackageListViewDelegate: AnyObject {
-	func chPackageListViewDidSelect(package: Package)
+protocol PackageListViewDelegate: AnyObject {
+	func packageListViewDidSelect(package: Package)
 }
 
 /// Class to represent the package list view
-final class CHPackageListView: UIView {
+final class PackageListView: UIView {
 
-	private let packageListViewModel = CHPackageListViewViewModel()
+	private let packageListViewModel = PackageListViewViewModel()
 
 	private lazy var packagesCollectionView: UICollectionView = {
 		let flowLayout = UICollectionViewFlowLayout()
@@ -24,7 +24,7 @@ final class CHPackageListView: UIView {
 
 	private lazy var spinnerView = createSpinnerView(withStyle: .large, childOf: self)
 
-	weak var delegate: CHPackageListViewDelegate?
+	weak var delegate: PackageListViewDelegate?
 
 	var collectionView: UICollectionView { return packagesCollectionView }
 
@@ -69,9 +69,9 @@ final class CHPackageListView: UIView {
 
 }
 
-// ! CHPackageListViewViewModelDelegate
+// ! PackageListViewViewModelDelegate
 
-extension CHPackageListView: CHPackageListViewViewModelDelegate {
+extension PackageListView: PackageListViewViewModelDelegate {
 
 	func didFetchPackages() {
 		guard packageListViewModel.isFromQuery else {
@@ -87,14 +87,14 @@ extension CHPackageListView: CHPackageListViewViewModelDelegate {
 	}
 
 	func didSelect(package: Package) {
-		delegate?.chPackageListViewDidSelect(package: package)
+		delegate?.packageListViewDidSelect(package: package)
 	}
 
 }
 
 // ! UISearchResultsUpdating
 
-extension CHPackageListView: UISearchResultsUpdating {
+extension PackageListView: UISearchResultsUpdating {
 
 	func updateSearchResults(for searchController: UISearchController) {
 		let textToSearch = searchController.searchBar.text!.trimmingCharacters(in: .whitespacesAndNewlines)

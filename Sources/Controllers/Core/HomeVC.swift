@@ -1,24 +1,24 @@
 import UIKit
 
 /// Controller that'll show the main packages list
-final class CHHomeVC: UIViewController {
+final class HomeVC: UIViewController {
 
-	private let chPackageListView = CHPackageListView()
+	private let packageListView = PackageListView()
 
 	var coordinator: HomeCoordinator?
 
 	// ! Lifecycle
 
-	override func loadView() { view = chPackageListView }
+	override func loadView() { view = packageListView }
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .systemGroupedBackground
 		setupSearchController()
-		chPackageListView.delegate = self
+		packageListView.delegate = self
 
-		let chTabBarController = tabBarController as? CHTabBarVC
-		chTabBarController?.chDelegate = self
+		let tabBarController = tabBarController as? TabBarVC
+		tabBarController?.chDelegate = self
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -32,7 +32,7 @@ final class CHHomeVC: UIViewController {
 		let searchController = UISearchController()
 		searchController.searchBar.placeholder = "Search for tweaks, themes, tools"
 		searchController.searchBar.returnKeyType = .default
-		searchController.searchResultsUpdater = chPackageListView
+		searchController.searchResultsUpdater = packageListView
 		searchController.obscuresBackgroundDuringPresentation = false
 
 		navigationItem.searchController = searchController
@@ -42,22 +42,22 @@ final class CHHomeVC: UIViewController {
 
 // ! CHPackagesViewDelegate
 
-extension CHHomeVC: CHPackageListViewDelegate {
+extension HomeVC: PackageListViewDelegate {
 
-	func chPackageListViewDidSelect(package: Package) {
+	func packageListViewDidSelect(package: Package) {
 		coordinator?.eventOccurred(with: .packageCellTapped(package: package))
 	}
 
 }
 
-// ! CHTabBarVCDelegate
+// ! TabBarVCDelegate
 
-extension CHHomeVC: CHTabBarVCDelegate {
+extension HomeVC: TabBarVCDelegate {
 
 	func didSelectTabBarItem() {
  		let selector = NSSelectorFromString("_scrollToTopIfPossible:")
-		guard chPackageListView.collectionView.responds(to: selector) else { return }
-		chPackageListView.collectionView.performSelector(onMainThread: selector, with: true, waitUntilDone: true)
+		guard packageListView.collectionView.responds(to: selector) else { return }
+		packageListView.collectionView.performSelector(onMainThread: selector, with: true, waitUntilDone: true)
 	}
 
 }

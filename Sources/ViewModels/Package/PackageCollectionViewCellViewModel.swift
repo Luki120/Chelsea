@@ -1,7 +1,7 @@
 import UIKit
 
-/// View model class for CHPackageCollectionViewCell
-final class CHPackageCollectionViewCellViewModel: Hashable {
+/// View model class for PackageCollectionViewCell
+final class PackageCollectionViewCellViewModel: Hashable {
 
 	let packageName: String
 	let packageDescription: String
@@ -39,12 +39,12 @@ final class CHPackageCollectionViewCellViewModel: Hashable {
 			completion(.failure(URLError(.badURL)))
 			return
 		}
-		CHImageManager.sharedInstance.fetchImage(urlString, completion: completion)
+		ImageManager.sharedInstance.fetchImage(urlString, completion: completion)
 	}
 
  	// ! Hashable
 
-	static func == (lhs: CHPackageCollectionViewCellViewModel, rhs: CHPackageCollectionViewCellViewModel) -> Bool {
+	static func == (lhs: PackageCollectionViewCellViewModel, rhs: PackageCollectionViewCellViewModel) -> Bool {
 		return lhs.hashValue == rhs.hashValue
 	}
 

@@ -1,15 +1,15 @@
 import UIKit
 
 
-protocol CHPackageDetailsViewDelegate: AnyObject {
-	func chPackageDetailsViewDidSelectAuthorCell()
-	func chPackageDetailsViewDidSelectViewDepictionCell()
+protocol PackageDetailsViewDelegate: AnyObject {
+	func packageDetailsViewDidSelectAuthorCell()
+	func packageDetailsViewDidSelectViewDepictionCell()
 }
 
 /// Class to represent the package details view
-final class CHPackageDetailsView: UIView {
+final class PackageDetailsView: UIView {
 
-	let viewModel: CHPackageDetailsViewViewModel
+	let viewModel: PackageDetailsViewViewModel
 
 	private lazy var listCollectionView: UICollectionView = {
 		let sectionProvider = {
@@ -26,7 +26,7 @@ final class CHPackageDetailsView: UIView {
 		return collectionView
 	}()
 
-	weak var delegate: CHPackageDetailsViewDelegate?
+	weak var delegate: PackageDetailsViewDelegate?
 
 	// ! Lifecycle
 
@@ -37,7 +37,7 @@ final class CHPackageDetailsView: UIView {
 	/// Designated initializer
 	/// - Parameters:
 	/// 	- viewModel: the view's view model
-	init(viewModel: CHPackageDetailsViewViewModel) {
+	init(viewModel: PackageDetailsViewViewModel) {
 		self.viewModel = viewModel
 		super.init(frame: .zero)
 		viewModel.delegate = self
@@ -51,16 +51,16 @@ final class CHPackageDetailsView: UIView {
 
 }
 
-// ! CHPackageDetailsViewViewModelDelegate
+// ! PackageDetailsViewViewModelDelegate
 
-extension CHPackageDetailsView: CHPackageDetailsViewViewModelDelegate {
+extension PackageDetailsView: PackageDetailsViewViewModelDelegate {
 
 	func didSelectAuthorCell() {
-		delegate?.chPackageDetailsViewDidSelectAuthorCell()
+		delegate?.packageDetailsViewDidSelectAuthorCell()
 	}
 
 	func didSelectViewDepictionCell() {
-		delegate?.chPackageDetailsViewDidSelectViewDepictionCell()	
+		delegate?.packageDetailsViewDidSelectViewDepictionCell()	
 	}
 
 }

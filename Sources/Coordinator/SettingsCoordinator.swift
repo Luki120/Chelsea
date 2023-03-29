@@ -1,19 +1,19 @@
 import SafariServices
 import UIKit
 
-/// Settings coordinator, which will take care of any navigation events related to CHSettingsVC
+/// Settings coordinator, which will take care of any navigation events related to SettingsVC
 final class SettingsCoordinator: Coordinator {
 
 	enum Event {
-		case devCellTapped(developer: CHSettingsDeveloper)
-		case appCellTapped(app: CHSettingsApp)
+		case devCellTapped(developer: SettingsDeveloper)
+		case appCellTapped(app: SettingsApp)
 		case sourceCodeButtonTapped
 	}
 
 	var navigationController = UINavigationController()
 
 	init() {
-		let settingsVC = CHSettingsVC()
+		let settingsVC = SettingsVC()
 		settingsVC.coordinator = self
 		settingsVC.title = "Settings"
 

@@ -1,9 +1,9 @@
 import UIKit
 
 /// Class to represent the package cell
-final class CHPackageCollectionViewCell: UICollectionViewCell {
+final class PackageCollectionViewCell: UICollectionViewCell {
 
-	private weak var activeViewModel: CHPackageCollectionViewCellViewModel?
+	private weak var activeViewModel: PackageCollectionViewCellViewModel?
 
 	private lazy var packageImageView: UIImageView = {
 		let imageView = UIImageView()
@@ -97,14 +97,14 @@ final class CHPackageCollectionViewCell: UICollectionViewCell {
 
 }
 
-extension CHPackageCollectionViewCell {
+extension PackageCollectionViewCell {
 
 	// ! Public
 
 	/// Function to configure the cell with its respective view model
 	/// - Parameters:
 	/// 	- with: The cell's view model
-	func configure(with viewModel: CHPackageCollectionViewCellViewModel) {
+	func configure(with viewModel: PackageCollectionViewCellViewModel) {
 		activeViewModel = viewModel
 
 		packageNameLabel.text = viewModel.packageName

@@ -1,13 +1,13 @@
 import UIKit
 
 
-protocol CHPackageDetailsViewViewModelDelegate: AnyObject {
+protocol PackageDetailsViewViewModelDelegate: AnyObject {
 	func didSelectAuthorCell()
 	func didSelectViewDepictionCell()
 }
 
-/// View model class for CHPackageDetailsView
-final class CHPackageDetailsViewViewModel: NSObject {
+/// View model class for PackageDetailsView
+final class PackageDetailsViewViewModel: NSObject {
 
 	let package: Package
 
@@ -29,19 +29,19 @@ final class CHPackageDetailsViewViewModel: NSObject {
 		case footer
 	}
 
-	private typealias CellRegistration = UICollectionView.CellRegistration<CHPackageDetailsCollectionViewListCell, CHPackageDetailsCollectionViewListCellViewModel>
-	private typealias HeaderRegistration = UICollectionView.SupplementaryRegistration<CHPackageDetailsHeaderCollectionReusableView>
-	private typealias DataSource = UICollectionViewDiffableDataSource<Sections, CHPackageDetailsCollectionViewListCellViewModel>
-	private typealias Snapshot = NSDiffableDataSourceSnapshot<Sections, CHPackageDetailsCollectionViewListCellViewModel>
+	private typealias CellRegistration = UICollectionView.CellRegistration<PackageDetailsCollectionViewListCell, PackageDetailsCollectionViewListCellViewModel>
+	private typealias HeaderRegistration = UICollectionView.SupplementaryRegistration<PackageDetailsHeaderCollectionReusableView>
+	private typealias DataSource = UICollectionViewDiffableDataSource<Sections, PackageDetailsCollectionViewListCellViewModel>
+	private typealias Snapshot = NSDiffableDataSourceSnapshot<Sections, PackageDetailsCollectionViewListCellViewModel>
 
 	private var dataSource: DataSource!
 	private var snapshot: Snapshot!
 
-	private var cellDetailViewModels = [CHPackageDetailsCollectionViewListCellViewModel]()
-	private var detailHeaderViewModel: CHPackageDetailsHeaderCollectionReusableViewViewModel!
-	private var footerViewModel = [CHPackageDetailsCollectionViewListCellViewModel]()
+	private var cellDetailViewModels = [PackageDetailsCollectionViewListCellViewModel]()
+	private var detailHeaderViewModel: PackageDetailsHeaderCollectionReusableViewViewModel!
+	private var footerViewModel = [PackageDetailsCollectionViewListCellViewModel]()
 
-	weak var delegate: CHPackageDetailsViewViewModelDelegate?
+	weak var delegate: PackageDetailsViewViewModelDelegate?
 
 	/// Designated initializer
 	/// - Parameters:
@@ -77,7 +77,7 @@ final class CHPackageDetailsViewViewModel: NSObject {
 
 // ! CollectionView
 
-extension CHPackageDetailsViewViewModel {
+extension PackageDetailsViewViewModel {
 
 	/// Function to setup the list collection view's data source
 	/// - Parameters:
@@ -118,7 +118,7 @@ extension CHPackageDetailsViewViewModel {
 
 }
 
-extension CHPackageDetailsViewViewModel: UICollectionViewDelegate {
+extension PackageDetailsViewViewModel: UICollectionViewDelegate {
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		collectionView.deselectItem(at: indexPath, animated: true)
