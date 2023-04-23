@@ -124,14 +124,14 @@ extension PackageDetailsViewViewModel: UICollectionViewDelegate {
 		collectionView.deselectItem(at: indexPath, animated: true)
 		switch indexPath.section {
 			case 0:
-				switch indexPath.row {
+				switch indexPath.item {
 					case 2:
 						guard authorEmail != nil else { return } 
 						delegate?.didSelectAuthorCell()
 					default: break
 				}
 			case 1:
-				switch indexPath.row {
+				switch indexPath.item {
 					case 1: delegate?.didSelectViewDepictionCell()
 					default: break
 				}
