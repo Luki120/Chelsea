@@ -122,15 +122,11 @@ extension PackageListViewViewModel {
 
 }
 
-extension PackageListViewViewModel: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: collectionView.bounds.size.width, height: 85)
-	}
+extension PackageListViewViewModel: UICollectionViewDelegate {
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		collectionView.deselectItem(at: indexPath, animated: true)
-		delegate?.didSelect(package: packages[indexPath.row])
+		delegate?.didSelect(package: packages[indexPath.item])
 	}
 
 }

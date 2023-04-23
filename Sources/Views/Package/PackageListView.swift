@@ -10,11 +10,21 @@ final class PackageListView: UIView {
 
 	private let packageListViewModel = PackageListViewViewModel()
 
+	private let compositionalLayout: UICollectionViewCompositionalLayout = {
+		let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+		let item = NSCollectionLayoutItem(layoutSize: itemSize)
+		item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0)
+
+		let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(95))
+		let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+		let section = NSCollectionLayoutSection(group: group)
+		section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
+		return UICollectionViewCompositionalLayout(section: section)
+	}()
+
 	private lazy var packagesCollectionView: UICollectionView = {
-		let flowLayout = UICollectionViewFlowLayout()
-		flowLayout.scrollDirection = .vertical
-		flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
-		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
 		collectionView.alpha = 0
 		collectionView.backgroundColor = .systemGroupedBackground
 		collectionView.showsVerticalScrollIndicator = false
