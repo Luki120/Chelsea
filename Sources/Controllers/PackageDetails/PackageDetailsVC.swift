@@ -24,7 +24,7 @@ final class PackageDetailsVC: UIViewController {
 
 	init(viewModel: PackageDetailsViewViewModel) {
 		self.viewModel = viewModel
-		self.packageDetailsView = PackageDetailsView(viewModel: viewModel)
+		self.packageDetailsView = .init(viewModel: viewModel)
 		super.init(nibName: nil, bundle: nil)
 		packageDetailsView.delegate = self
 	}
@@ -46,7 +46,7 @@ final class PackageDetailsVC: UIViewController {
 	private func setupUI() {
 		title = viewModel.title
 		view.backgroundColor = .systemBackground
-		navigationItem.rightBarButtonItem = UIBarButtonItem(customView: priceLabel)
+		navigationItem.rightBarButtonItem = .init(customView: priceLabel)
 	}
 
 }
@@ -55,11 +55,11 @@ final class PackageDetailsVC: UIViewController {
 
 extension PackageDetailsVC: PackageDetailsViewDelegate {
 
-	func packageDetailsViewDidSelectAuthorCell() {
+	func didSelectAuthorCell(in packageDetailsView: PackageDetailsView) {
 		coordinator?.eventOccurred(with: .authorCellTapped)
 	}
 
-	func packageDetailsViewDidSelectViewDepictionCell() {
+	func didSelectViewDepictionCell(in packageDetailsView: PackageDetailsView) {
 		coordinator?.eventOccurred(with: .depictionCellTapped)
 	} 
 

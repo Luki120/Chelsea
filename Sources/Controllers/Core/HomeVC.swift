@@ -44,7 +44,7 @@ final class HomeVC: UIViewController {
 
 extension HomeVC: PackageListViewDelegate {
 
-	func packageListViewDidSelect(package: Package) {
+	func packageListView(_ packageListView: PackageListView, didSelect package: Package) {
 		coordinator?.eventOccurred(with: .packageCellTapped(package: package))
 	}
 
@@ -54,7 +54,7 @@ extension HomeVC: PackageListViewDelegate {
 
 extension HomeVC: TabBarVCDelegate {
 
-	func didSelectTabBarItem() {
+	func didSelectTabBarItem(in tabBarVC: TabBarVC) {
  		let selector = NSSelectorFromString("_scrollToTopIfPossible:")
 		guard packageListView.collectionView.responds(to: selector) else { return }
 		packageListView.collectionView.performSelector(onMainThread: selector, with: true, waitUntilDone: true)

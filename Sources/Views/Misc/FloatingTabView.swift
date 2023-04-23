@@ -4,7 +4,7 @@ import UIKit
 
 
 protocol FloatingTabViewDelegate: AnyObject {
-	func didSelect(index: Int)
+	func floatingTabView(_ floatingTabView: FloatingTabView, didSelect index: Int)
 }
 
 /// Custom floating tab bar view class
@@ -66,10 +66,10 @@ final class FloatingTabView: UIView {
 		pinViewToAllEdges(tabBarVisualEffectView)
 
 		NSLayoutConstraint.activate([
-			NSLayoutConstraint(item: buttonsStackView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0),
-			NSLayoutConstraint(item: buttonsStackView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0),
-			NSLayoutConstraint(item: buttonsStackView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 15),
-			NSLayoutConstraint(item: buttonsStackView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -15)
+			.init(item: buttonsStackView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0),
+			.init(item: buttonsStackView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0),
+			.init(item: buttonsStackView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 15),
+			.init(item: buttonsStackView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -15)
 		])
 
 		layer.cornerCurve = .continuous
@@ -96,7 +96,7 @@ final class FloatingTabView: UIView {
 	@objc
 	private func didTapTabBarButton(_ button: UIButton) {
 		button.setPulseAnimation()
-		delegate?.didSelect(index: button.tag)
+		delegate?.floatingTabView(self, didSelect: button.tag)
 		updateState(withSelectedIndex: button.tag)
 	}
 

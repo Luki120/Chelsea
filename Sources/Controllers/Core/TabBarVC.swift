@@ -2,7 +2,7 @@ import UIKit
 
 
 protocol TabBarVCDelegate: AnyObject {
-	func didSelectTabBarItem()
+	func didSelectTabBarItem(in tabBarVC: TabBarVC)
 }
 
 /// Root view controller, which will show our tabs
@@ -54,9 +54,9 @@ final class TabBarVC: UITabBarController {
 
 extension TabBarVC: FloatingTabViewDelegate {
 
-	func didSelect(index: Int) {
+	func floatingTabView(_ floatingTabView: FloatingTabView, didSelect index: Int) {
 		selectedIndex = index
-		chDelegate?.didSelectTabBarItem()
+		chDelegate?.didSelectTabBarItem(in: self)
 	}
 
 }

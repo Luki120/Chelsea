@@ -2,8 +2,8 @@ import UIKit
 
 
 protocol PackageDetailsViewDelegate: AnyObject {
-	func packageDetailsViewDidSelectAuthorCell()
-	func packageDetailsViewDidSelectViewDepictionCell()
+	func didSelectAuthorCell(in packageDetailsView: PackageDetailsView)
+	func didSelectViewDepictionCell(in packageDetailsView: PackageDetailsView)
 }
 
 /// Class to represent the package details view
@@ -56,11 +56,11 @@ final class PackageDetailsView: UIView {
 extension PackageDetailsView: PackageDetailsViewViewModelDelegate {
 
 	func didSelectAuthorCell() {
-		delegate?.packageDetailsViewDidSelectAuthorCell()
+		delegate?.didSelectAuthorCell(in: self)
 	}
 
 	func didSelectViewDepictionCell() {
-		delegate?.packageDetailsViewDidSelectViewDepictionCell()	
+		delegate?.didSelectViewDepictionCell(in: self)	
 	}
 
 }

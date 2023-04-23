@@ -2,7 +2,7 @@ import UIKit
 
 
 protocol PackageListViewDelegate: AnyObject {
-	func packageListViewDidSelect(package: Package)
+	func packageListView(_ packageListView: PackageListView, didSelect package: Package)
 }
 
 /// Class to represent the package list view
@@ -87,7 +87,7 @@ extension PackageListView: PackageListViewViewModelDelegate {
 	}
 
 	func didSelect(package: Package) {
-		delegate?.packageListViewDidSelect(package: package)
+		delegate?.packageListView(self, didSelect: package)
 	}
 
 }
