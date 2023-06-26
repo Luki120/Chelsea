@@ -2,7 +2,7 @@ import UIKit
 
 
 extension String {
-	static func authorEmail(_ authorEmail: String) -> String? {
+	static func authorEmail(_ authorEmail: String) -> String! {
 		let scanner = Scanner(string: authorEmail)
 
 		guard scanner.scanUpToString("<") != nil,
@@ -12,7 +12,7 @@ extension String {
 		return scannedString
 	}
 
-	static func cleanAuthor(_ author: String) -> String? {
+	static func cleanAuthor(_ author: String) -> String! {
 		let scanner = Scanner(string: author)
 		guard let scannedString = scanner.scanUpToString("<") else { return nil }
 		return scannedString

@@ -22,7 +22,7 @@ final class PackageListViewViewModel: NSObject {
 					packageName: package.name ?? package.identifier,
 					packageDescription: package.description,
 					packageIconURL: package.packageIcon ?? PackageIcon(package.section).section,
-					packageAuthor: .cleanAuthor(package.author ?? "Unknown") ?? "Unknown",
+					packageAuthor: .cleanAuthor(package.author ?? "Unknown"),
 					packageLatestVersion: package.latestVersion
 				)
 			}
