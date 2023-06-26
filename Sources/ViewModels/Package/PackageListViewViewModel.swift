@@ -11,27 +11,25 @@ protocol PackageListViewViewModelDelegate: AnyObject {
 final class PackageListViewViewModel: NSObject {
 
 	let searchQuerySubject = PassthroughSubject<String, Never>()
+	var isRefreshing = false
 
-	private var subscriptions = Set<AnyCancellable>()
-
-	private var cellViewModels = [PackageCollectionViewCellViewModel]()
+	private var cellViewModels = OrderedSet<PackageCollectionViewCellViewModel>()
 	private var packages = [Package]() {
 		didSet {
-			for package in packages {
-				let viewModel = PackageCollectionViewCellViewModel(
+			cellViewModels += packages.compactMap { package in
+				return PackageCollectionViewCellViewModel(
+					packageIdentifier: package.identifier,
 					packageName: package.name ?? package.identifier,
 					packageDescription: package.description,
 					packageIconURL: package.packageIcon ?? PackageIcon(package.section).section,
 					packageAuthor: .cleanAuthor(package.author ?? "Unknown") ?? "Unknown",
 					packageLatestVersion: package.latestVersion
 				)
-				if !cellViewModels.contains(viewModel) {
-					cellViewModels.append(viewModel)
-				}
 			}
 		}
 	}
 
+	private var subscriptions = Set<AnyCancellable>()
 	private(set) var isFromQuery = false
 
 	weak var delegate: PackageListViewViewModelDelegate?
@@ -49,23 +47,23 @@ final class PackageListViewViewModel: NSObject {
 	private var dataSource: DataSource!
 	private var snapshot: Snapshot!
 
-	private func wipeViewModels() { cellViewModels.removeAll() }
-
 	// ! Public
 
 	/// Function to retrieve packages from the API call
 	/// - Parameters:
-	///		- fromQuery: an optional string to represent the given query,
+	///		- fromQuery: An optional string to represent the given query,
 	///		defaulting to nil if none was provided
-	func fetchPackages(fromQuery query: String? = nil) {
+	///		- isPullToRefresh: A bool to determine if the user pulled to refresh, defaulting to false
+	func fetchPackages(fromQuery query: String? = nil, isPullToRefresh: Bool = false) {
 		isFromQuery = query == nil || query == "" ? false : true
 
-		Service.sharedInstance.fetchPackages(
-			withURLString: "\(Service.Constants.baseURL)\(query ?? "")",
-			expecting: APIResponse.self
-		) { result in
+		let urlString = "\(Service.Constants.baseURL)\(query ?? "")"
+			.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+
+		Service.sharedInstance.fetchPackages(withURLString: urlString, expecting: APIResponse.self) { result in
 			switch result {
 				case .success(let response):
+					if isPullToRefresh { self.cellViewModels.removeAll() }
 					self.packages = response.packages
 					DispatchQueue.main.async {
 						self.delegate?.didFetchPackages()
@@ -80,7 +78,7 @@ final class PackageListViewViewModel: NSObject {
 		searchQuerySubject
 			.debounce(for: .seconds(0.8), scheduler: DispatchQueue.main)
 			.sink { [weak self] in
-				self?.wipeViewModels()
+				self?.cellViewModels.removeAll()
 				self?.fetchPackages(fromQuery: $0)
 			}
 			.store(in: &subscriptions)
@@ -94,13 +92,13 @@ extension PackageListViewViewModel {
 
 	/// Function to setup the collection view's data source
 	/// - Parameters:
-	///		- collectionView: the collection view
+	///		- collectionView: The collection view
 	func setupCollectionView(_ collectionView: UICollectionView) {
 		let cellRegistration = CellRegistration { cell, _, viewModel in
 			cell.configure(with: viewModel)
 		}
 
-		dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, identifier -> UICollectionViewCell? in
+		dataSource = DataSource(collectionView: collectionView) { collectionView, indexPath, identifier in
 			let cell = collectionView.dequeueConfiguredReusableCell(
 				using: cellRegistration,
 				for: indexPath,
@@ -112,12 +110,12 @@ extension PackageListViewViewModel {
 		applySnapshot()
 	}
 
+	/// Function to apply the snapshot to the diffable data source
 	func applySnapshot() {
 		snapshot = Snapshot()
 		snapshot.appendSections([.main])
-		snapshot.appendItems(cellViewModels)
-
-		dataSource.apply(snapshot, animatingDifferences: true)
+		snapshot.appendItems(Array(cellViewModels))
+		dataSource.apply(snapshot)
 	}
 
 }
@@ -127,6 +125,14 @@ extension PackageListViewViewModel: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		collectionView.deselectItem(at: indexPath, animated: true)
 		delegate?.didSelect(package: packages[indexPath.item])
+	}
+
+	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+		guard let collectionView = scrollView as? UICollectionView else { return }
+
+		if !isRefreshing && collectionView.refreshControl!.isRefreshing {
+			collectionView.refreshControl!.endRefreshing()
+		}
 	}
 
 }

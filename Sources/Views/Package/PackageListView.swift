@@ -26,12 +26,14 @@ final class PackageListView: UIView {
 	private lazy var packagesCollectionView: UICollectionView = {
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
 		collectionView.alpha = 0
+		collectionView.refreshControl = refreshControl
 		collectionView.backgroundColor = .systemGroupedBackground
 		collectionView.showsVerticalScrollIndicator = false
 		addSubview(collectionView)
 		return collectionView
 	}()
 
+	private lazy var refreshControl = UIRefreshControl()
 	private lazy var spinnerView = createSpinnerView(withStyle: .large, childOf: self)
 
 	weak var delegate: PackageListViewDelegate?
@@ -50,6 +52,8 @@ final class PackageListView: UIView {
 		packageListViewModel.setupCollectionView(packagesCollectionView)
 		setupUI()
 		setupViewModel()
+
+		refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
 	}
 
 	override func layoutSubviews() {
@@ -75,6 +79,14 @@ final class PackageListView: UIView {
 		packageListViewModel.delegate = self
 		packageListViewModel.fetchPackages()
 		packageListViewModel.setupSearchQuerySubject()
+	}
+
+	// ! Selectors
+
+	@objc private func didPullToRefresh() {
+		packageListViewModel.isRefreshing = true
+		packageListViewModel.fetchPackages(isPullToRefresh: true)
+		packageListViewModel.isRefreshing = false
 	}
 
 }

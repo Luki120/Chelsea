@@ -3,7 +3,7 @@ import UIKit
 /// Class to represent the package cell
 final class PackageCollectionViewCell: UICollectionViewCell {
 
-	private weak var activeViewModel: PackageCollectionViewCellViewModel?
+	private var activeViewModel: PackageCollectionViewCellViewModel?
 
 	private lazy var packageImageView: UIImageView = {
 		let imageView = UIImageView()
@@ -26,9 +26,7 @@ final class PackageCollectionViewCell: UICollectionViewCell {
 
 	private lazy var spinnerView = createSpinnerView(withStyle: .medium, childOf: contentView) 
 
-	private var packageNameLabel: UILabel!
-	private var packageAuthorLabel: UILabel!
-	private var packageDescriptionLabel: UILabel!
+	private var packageNameLabel, packageAuthorLabel, packageDescriptionLabel: UILabel!
 
 	// ! Lifecyle
 
@@ -49,10 +47,9 @@ final class PackageCollectionViewCell: UICollectionViewCell {
 	override func prepareForReuse() {
 		super.prepareForReuse()
 		activeViewModel = nil
- 		packageNameLabel.text = nil
-		packageAuthorLabel.text = nil
-		packageDescriptionLabel.text = nil
 		packageImageView.image = nil
+		[packageNameLabel, packageAuthorLabel, packageDescriptionLabel].forEach { $0.text = nil }
+
 		spinnerView.startAnimating()
 	}
 
@@ -112,10 +109,10 @@ extension PackageCollectionViewCell {
 		packageAuthorLabel.text = "\(viewModel.packageAuthor) • \(viewModel.packageLatestVersion)"
 
 		viewModel.fetchImage { [weak self] result in
-			guard let self = self, self.activeViewModel == viewModel else { return }
 			switch result {
 				case .success((let image, let isFromNetwork)):
 					DispatchQueue.main.async {
+						guard let self, self.activeViewModel == viewModel else { return }
 						guard !isFromNetwork else {
 							UIView.transition(with: self.packageImageView, duration: 0.5, options: .transitionCrossDissolve) {
 								self.packageImageView.image = image
