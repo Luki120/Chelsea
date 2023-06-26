@@ -10,8 +10,7 @@ protocol PackageListViewViewModelDelegate: AnyObject {
 /// View model class for PackageListView
 final class PackageListViewViewModel: NSObject {
 
-	let searchQuerySubject = PassthroughSubject<String, Never>()
-	var isRefreshing = false
+	private let searchQuerySubject = PassthroughSubject<String, Never>()
 
 	private var cellViewModels = OrderedSet<PackageCollectionViewCellViewModel>()
 	private var packages = [Package]() {
@@ -33,6 +32,7 @@ final class PackageListViewViewModel: NSObject {
 	private(set) var isFromQuery = false
 
 	weak var delegate: PackageListViewViewModelDelegate?
+	var isRefreshing = false
 
 	// ! UICollectionViewDiffableDataSource
 
@@ -82,6 +82,13 @@ final class PackageListViewViewModel: NSObject {
 				self?.fetchPackages(fromQuery: $0)
 			}
 			.store(in: &subscriptions)
+	}
+
+	/// Function to send the query subject
+	/// - Parameters:
+	///     - subject: A string representing the query subject
+	func sendQuerySubject(_ subject: String) {
+		searchQuerySubject.send(subject)
 	}
 
 }

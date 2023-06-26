@@ -121,7 +121,7 @@ extension PackageListView: UISearchResultsUpdating {
 	func updateSearchResults(for searchController: UISearchController) {
 		let textToSearch = searchController.searchBar.text!.trimmingCharacters(in: .whitespacesAndNewlines)
 		guard !textToSearch.isEmpty else { return }
-		packageListViewModel.searchQuerySubject.send(textToSearch)
+		packageListViewModel.sendQuerySubject(textToSearch)
 	}
 
 }
