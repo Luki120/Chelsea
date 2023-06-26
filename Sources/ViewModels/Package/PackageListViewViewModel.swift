@@ -3,7 +3,7 @@ import UIKit
 
 
 protocol PackageListViewViewModelDelegate: AnyObject {
-	func didFetchPackages()
+	func didFetchPackages(fromQuery isFromQuery: Bool)
 	func didSelect(package: Package)
 }
 
@@ -29,8 +29,6 @@ final class PackageListViewViewModel: NSObject {
 	}
 
 	private var subscriptions = Set<AnyCancellable>()
-	private(set) var isFromQuery = false
-
 	weak var delegate: PackageListViewViewModelDelegate?
 	var isRefreshing = false
 
@@ -55,7 +53,7 @@ final class PackageListViewViewModel: NSObject {
 	///		defaulting to nil if none was provided
 	///		- isPullToRefresh: A bool to determine if the user pulled to refresh, defaulting to false
 	func fetchPackages(fromQuery query: String? = nil, isPullToRefresh: Bool = false) {
-		isFromQuery = query == nil || query == "" ? false : true
+		let isFromQuery = query == nil || query == "" ? false : true
 
 		let urlString = "\(Service.Constants.baseURL)\(query ?? "")"
 			.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
@@ -66,7 +64,7 @@ final class PackageListViewViewModel: NSObject {
 					if isPullToRefresh { self.cellViewModels.removeAll() }
 					self.packages = response.packages
 					DispatchQueue.main.async {
-						self.delegate?.didFetchPackages()
+						self.delegate?.didFetchPackages(fromQuery: isFromQuery)
 					}
 				case .failure: break
 			}

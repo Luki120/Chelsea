@@ -95,8 +95,8 @@ final class PackageListView: UIView {
 
 extension PackageListView: PackageListViewViewModelDelegate {
 
-	func didFetchPackages() {
-		guard packageListViewModel.isFromQuery else {
+	func didFetchPackages(fromQuery isFromQuery: Bool = false) {
+		guard isFromQuery else {
 			spinnerView.stopAnimating()
 			packageListViewModel.applySnapshot()
 
