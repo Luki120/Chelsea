@@ -31,7 +31,7 @@ final class HomeCoordinator: Coordinator {
 				navigationController.pushViewController(packageDetailsVC, animated: true)
 
 			case .authorCellTapped:
-				guard let url = URL(string: "mailto:\(packageDetailsVC.viewModel.authorEmail!)") else { return }
+				guard let url = URL(string: "mailto:\(packageDetailsVC.viewModel.authorEmail)") else { return }
 				UIApplication.shared.open(url, options: [:], completionHandler: nil)
 
 			case .depictionCellTapped:

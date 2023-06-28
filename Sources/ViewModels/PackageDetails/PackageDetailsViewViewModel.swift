@@ -9,18 +9,14 @@ protocol PackageDetailsViewViewModelDelegate: AnyObject {
 /// View model class for PackageDetailsView
 final class PackageDetailsViewViewModel: NSObject {
 
-	let package: Package
+	// ! Utilities
 
+	var authorEmail: String { .authorEmail(package.author ?? "") }
 	var depictionURL: String { package.depiction ?? "" }
 	var price: String { package.status == "online" ? package.price : "Unavailable" }
 	var title: String { package.name ?? package.identifier }
 
 	var priceTextColor: UIColor { package.status == "online" ? .chelseaPurpleColor : .systemRed }
-
-	// ! Utilities
-
-	var authorEmail: String! { .authorEmail(package.author ?? "") }
-	private var cleanAuthor: String! { .cleanAuthor(package.author ?? "Unknown") }
 
 	// ! UICollectionViewDiffableDataSource
 
@@ -39,13 +35,15 @@ final class PackageDetailsViewViewModel: NSObject {
 
 	private var cellDetailViewModels = [PackageDetailsCollectionViewListCellViewModel]()
 	private var detailHeaderViewModel: PackageDetailsHeaderCollectionReusableViewViewModel!
-	private var footerViewModel = [PackageDetailsCollectionViewListCellViewModel]()
+	private var footerViewModels = [PackageDetailsCollectionViewListCellViewModel]()
 
 	weak var delegate: PackageDetailsViewViewModelDelegate?
 
+	private let package: Package
+
 	/// Designated initializer
 	/// - Parameters:
-	/// 	- package: the package model object
+	/// 	- package: The package model object
 	init(package: Package) {
 		self.package = package
 		super.init()
@@ -55,6 +53,8 @@ final class PackageDetailsViewViewModel: NSObject {
 	// ! Private
 
 	private func setupModels() {
+		let cleanAuthor: String = .cleanAuthor(package.author ?? "Unknown")
+
 		detailHeaderViewModel = .init(imageURLString: package.packageIcon ?? PackageIcon(package.section).section)
 
 		cellDetailViewModels = [
@@ -65,12 +65,12 @@ final class PackageDetailsViewViewModel: NSObject {
 			.init(mainText: "Repository", secondaryText: package.repository.name)
 		]
 
-		footerViewModel = [
+		footerViewModels = [
 			.init(mainText: package.description)
 		]
 
 		guard package.depiction != nil else { return }
-		footerViewModel.append(.init(mainText: "View depiction", textColor: .chelseaPurpleColor))
+		footerViewModels.append(.init(mainText: "View depiction", textColor: .chelseaPurpleColor))
 	}
 
 }
@@ -81,13 +81,13 @@ extension PackageDetailsViewViewModel {
 
 	/// Function to setup the list collection view's data source
 	/// - Parameters:
-	///		- listCollectionView: the collection view
+	///		- listCollectionView: The collection view
 	func setupListCollectionView(_ listCollectionView: UICollectionView) {
 		let cellRegistration = CellRegistration { cell, _, viewModel in
 			cell.viewModel = viewModel
 		}
 
-		dataSource = DataSource(collectionView: listCollectionView) { collectionView, indexPath, identifier -> UICollectionViewCell? in
+		dataSource = DataSource(collectionView: listCollectionView) { collectionView, indexPath, identifier in
 			let cell = collectionView.dequeueConfiguredReusableCell(
 				using: cellRegistration,
 				for: indexPath,
@@ -101,7 +101,7 @@ extension PackageDetailsViewViewModel {
 		snapshot = Snapshot()
 		snapshot.appendSections([.main, .footer])
 		snapshot.appendItems(cellDetailViewModels, toSection: .main)
-		snapshot.appendItems(footerViewModel, toSection: .footer)
+		snapshot.appendItems(footerViewModels, toSection: .footer)
 
 		dataSource.apply(snapshot)
 	}
@@ -111,7 +111,7 @@ extension PackageDetailsViewViewModel {
 			detailHeaderView.configure(with: self.detailHeaderViewModel)
 		}
 
-		dataSource.supplementaryViewProvider = { collectionView, _, indexPath -> UICollectionReusableView? in
+		dataSource.supplementaryViewProvider = { collectionView, _, indexPath in
 			return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
 		}
 	}
@@ -126,7 +126,7 @@ extension PackageDetailsViewViewModel: UICollectionViewDelegate {
 			case 0:
 				switch indexPath.item {
 					case 2:
-						guard authorEmail != nil else { return } 
+						guard authorEmail != "" else { return } 
 						delegate?.didSelectAuthorCell()
 					default: break
 				}

@@ -2,19 +2,19 @@ import UIKit
 
 
 extension String {
-	static func authorEmail(_ authorEmail: String) -> String! {
+	static func authorEmail(_ authorEmail: String) -> String {
 		let scanner = Scanner(string: authorEmail)
 
 		guard scanner.scanUpToString("<") != nil,
 			scanner.scanString("<") != nil,
-			let scannedString = scanner.scanUpToString(">") else { return nil }
+			let scannedString = scanner.scanUpToString(">") else { return "" }
 
 		return scannedString
 	}
 
-	static func cleanAuthor(_ author: String) -> String! {
+	static func cleanAuthor(_ author: String) -> String {
 		let scanner = Scanner(string: author)
-		guard let scannedString = scanner.scanUpToString("<") else { return nil }
+		guard let scannedString = scanner.scanUpToString("<") else { return "" }
 		return scannedString
 	}
 }
