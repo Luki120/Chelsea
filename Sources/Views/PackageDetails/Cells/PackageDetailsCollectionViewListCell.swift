@@ -1,5 +1,38 @@
 import UIKit
 
+/// Class to represent the package details cell
+final class PackageDetailsCollectionViewListCell: UICollectionViewListCell {
+
+	var viewModel: PackageDetailsCollectionViewListCellViewModel?
+
+	override func updateConfiguration(using state: UICellConfigurationState) {
+		var newConfiguration = PackageDetailsContentConfiguration().updated(for: state)
+		newConfiguration.mainText = viewModel?.mainText
+		newConfiguration.secondaryText = viewModel?.secondaryText
+		newConfiguration.textColor = viewModel?.textColor
+
+		contentConfiguration = newConfiguration
+	}
+
+}
+
+/// Struct to represent the content configuration for the package details cell
+struct PackageDetailsContentConfiguration: UIContentConfiguration, Hashable {
+
+	var mainText: String?
+	var secondaryText: String?
+	var textColor: UIColor?
+
+	func makeContentView() -> UIView & UIContentView {
+		return PackageDetailsContentView(configuration: self)
+	}
+
+	func updated(for state: UIConfigurationState) -> PackageDetailsContentConfiguration {
+		return self
+	}
+
+}
+
 /// Class to represent the content view for the package details cell
 final class PackageDetailsContentView: UIView, UIContentView {
 
@@ -22,8 +55,7 @@ final class PackageDetailsContentView: UIView, UIContentView {
 		return stackView
 	}()
 
-	private var mainLabel: UILabel!
-	private var secondaryLabel: UILabel!
+	private var mainLabel, secondaryLabel: UILabel!
 
 	// ! Lifecycle
 
@@ -35,7 +67,6 @@ final class PackageDetailsContentView: UIView, UIContentView {
 		super.init(frame: .zero)
 
 		setupUI()
-		layoutUI()
 		self.configuration = configuration
 	}
 
@@ -46,6 +77,7 @@ final class PackageDetailsContentView: UIView, UIContentView {
 		secondaryLabel = createLabel(withFontSize: 11, textColor: .secondaryLabel)
 
 		labelsStackView.addArrangedSubviews(mainLabel, secondaryLabel)
+		layoutUI()
 	}
 
 	private func layoutUI() {
