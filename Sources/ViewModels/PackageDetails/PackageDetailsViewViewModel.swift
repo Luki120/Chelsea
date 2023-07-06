@@ -31,7 +31,6 @@ final class PackageDetailsViewViewModel: NSObject {
 	private typealias Snapshot = NSDiffableDataSourceSnapshot<Sections, PackageDetailsCollectionViewListCellViewModel>
 
 	private var dataSource: DataSource!
-	private var snapshot: Snapshot!
 
 	private var cellDetailViewModels = [PackageDetailsCollectionViewListCellViewModel]()
 	private var detailHeaderViewModel: PackageDetailsHeaderCollectionReusableViewViewModel!
@@ -98,7 +97,7 @@ extension PackageDetailsViewViewModel {
 
 		setupHeader()
 
-		snapshot = Snapshot()
+		var snapshot = Snapshot()
 		snapshot.appendSections([.main, .footer])
 		snapshot.appendItems(cellDetailViewModels, toSection: .main)
 		snapshot.appendItems(footerViewModels, toSection: .footer)

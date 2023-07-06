@@ -43,7 +43,6 @@ final class PackageListViewViewModel: NSObject {
 	private typealias Snapshot = NSDiffableDataSourceSnapshot<Sections, PackageCollectionViewCellViewModel>
 
 	private var dataSource: DataSource!
-	private var snapshot: Snapshot!
 
 	// ! Public
 
@@ -117,7 +116,7 @@ extension PackageListViewViewModel {
 
 	/// Function to apply the snapshot to the diffable data source
 	func applySnapshot() {
-		snapshot = Snapshot()
+		var snapshot = Snapshot()
 		snapshot.appendSections([.main])
 		snapshot.appendItems(Array(cellViewModels))
 		dataSource.apply(snapshot)

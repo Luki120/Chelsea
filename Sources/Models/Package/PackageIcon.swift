@@ -10,7 +10,10 @@ enum PackageIcon: String {
 	case widgets = "Widgets"
 
 	// credits ⇝ https://stackoverflow.com/a/60676515
-	// custom initializer to provide a default value in case the switch doesn't fall into one of the provided cases
+	/// Designated initializer
+	/// - Parameters:
+	///		- optionalValue: Optional raw value to provide a fallback in case the switch doesn't fall
+	///		into one of the provided cases
 	init(_ optionalValue: RawValue?) {
 		guard let rawValue = optionalValue, let validValue = PackageIcon(rawValue: rawValue) else {
 			self = .tweaks

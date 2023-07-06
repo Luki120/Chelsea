@@ -12,9 +12,9 @@ final class Service {
 
 	/// Function that'll handle the API call
 	/// - Parameters:
-	///		- withURLString: the API url string
-	///		- expecting: the given type that conforms to Codable from which we will decode the JSON data
-	///		- completion: completion closure that gives us either data or an error
+	///		- withURLString: The API url string
+	///		- expecting: The given type that conforms to Codable from which we will decode the JSON data
+	///		- completion: Completion closure that gives us either data or an error
 	func fetchPackages<T: Codable>(
 		withURLString urlString: String,
 		expecting type: T.Type,

@@ -10,8 +10,8 @@ protocol SettingsViewViewModelDelegate: AnyObject {
 /// View model class for SettingsView
 final class SettingsViewViewModel {
 
-	private var lukiIcon = "https://avatars.githubusercontent.com/u/74214115?v=4"
-	private var zemyoroIcon = "https://avatars.githubusercontent.com/u/85952603?v=4"
+	private let lukiIcon = "https://avatars.githubusercontent.com/u/74214115?v=4"
+	private let zemyoroIcon = "https://avatars.githubusercontent.com/u/85952603?v=4"
 
 	private(set) var ghCellViewModels = [SettingsGitHubCellViewViewModel]()
 	private(set) var appCellViewModels = [SettingsAppCellViewModel]()

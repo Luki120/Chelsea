@@ -1,6 +1,6 @@
 import UIKit
 
-/// View model struct for CHPackageDetailsCollectionViewListCell
+/// View model struct for PackageDetailsCollectionViewListCell
 struct PackageDetailsCollectionViewListCellViewModel: Hashable {
 
 	let mainText: String

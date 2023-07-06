@@ -36,7 +36,7 @@ final class PackageDetailsView: UIView {
 
 	/// Designated initializer
 	/// - Parameters:
-	/// 	- viewModel: the view's view model
+	/// 	- viewModel: The view's view model
 	init(viewModel: PackageDetailsViewViewModel) {
 		self.viewModel = viewModel
 		super.init(frame: .zero)
