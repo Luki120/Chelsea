@@ -42,7 +42,7 @@ struct SettingsView: View {
 				.foregroundColor(.primary)
 			}
 
-			Section(footer: Text("© 2023 Luki120").font(.caption)) {}
+			Section(footer: Text("© 2023-2024 Luki120").font(.caption)) {}
 				.frame(maxWidth: .infinity, alignment: .center)
 		}
 		.listStyle(.insetGrouped)
