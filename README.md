@@ -1,6 +1,6 @@
 # Chelsea
 
-<img src="https://raw.githubusercontent.com/Luki120/luki120.github.io/master/assets/Apps/Chelsea/ChelseaHome.png" width="300"> &nbsp; <img src="https://raw.githubusercontent.com/Luki120/luki120.github.io/master/assets/Apps/Chelsea/ChelseaDetails.png" width="300">
+<img src="Assets/Home.png" width="300" alt="Chelsea home"> &nbsp; <img src="Assets/Details.png" width="300" alt="Chelsea details">
 
 * Built using MVVM-C pattern (Model View ViewModel - Coordinator), so a combination of both. ⇝ No fat VC issue, each of the view controllers in this project have less than 50 loc :tm: + they are isolated & have no knowledge of each other, thanks to the Coordinator pattern. Chelsea's the UIKit version of [TweakIndex](https://github.com/Zemyoro/TweakIndex), built using SwiftUI's flavor of MVVM.
 
