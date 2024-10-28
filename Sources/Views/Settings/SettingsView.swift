@@ -5,6 +5,15 @@ struct SettingsView: View {
 
 	let viewModel: SettingsViewViewModel
 
+	private var copyrightLabel: String {
+		if #available(iOS 15.0, *) {
+			return "© 2023-\(Date.now.formatted(.dateTime.year())) Luki120"
+		}
+		else {
+			return "© 2023-\(Calendar.current.component(.year, from: Date())) Luki120"
+		}
+	}
+
 	var body: some View {
 		List {
 			Section(header: Text("Developers")) {
@@ -42,7 +51,7 @@ struct SettingsView: View {
 				.foregroundColor(.primary)
 			}
 
-			Section(footer: Text("© 2023-2024 Luki120").font(.caption)) {}
+			Section(footer: Text(copyrightLabel).font(.caption)) {}
 				.frame(maxWidth: .infinity, alignment: .center)
 		}
 		.listStyle(.insetGrouped)
